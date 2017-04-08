@@ -1,26 +1,26 @@
+PREFIX ?= /opt/pkg
 CFLAGS += -Wall -Wextra -pedantic -std=c99
 OBJS := main.o terminal.o input.o output.o buffer.o
-PREFIX ?= /opt/pkg
 
 .PHONY: all
-all: mred
+all: mred.bin
 
 $(OBJS): mred.h
 
 .c.o:
 	$(CC) $(CFLAGS) -c -fPIC -o $@ $<
 
-mred: $(OBJS)
-	$(CC) $(CFLAGS) -o mred $(OBJS)
+mred.bin: $(OBJS)
+	$(CC) $(CFLAGS) -o mred.bin $(OBJS)
 
 .PHONY: clean
 clean:
 	@rm -vf mred $(OBJS)
 
 .PHONY: install
-install: mred
+install: mred.bin
 	@mkdir -vp $(DESTDIR)$(PREFIX)/bin
-	@install -v -m 0555 mred $(DESTDIR)$(PREFIX)/bin/mred
+	@install -v -m 0555 mred.bin $(DESTDIR)$(PREFIX)/bin/mred
 
 .PHONY: uninstall
 uninstall:
