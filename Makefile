@@ -15,7 +15,7 @@ mred.bin: $(OBJS)
 
 .PHONY: clean
 clean:
-	@rm -vf mred $(OBJS)
+	@rm -vf mred.bin $(OBJS)
 
 .PHONY: install
 install: mred.bin
