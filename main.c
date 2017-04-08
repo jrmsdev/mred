@@ -6,9 +6,11 @@
 #include "mred.h"
 
 int
-main () {
+main (int argc, char *argv[]) {
 	enable_raw_mode ();
 	mred_init ();
+	if (argc >= 2)
+		mred_open (argv[1]);
 	while (1)
 	{
 		mred_refresh_screen ();
@@ -33,6 +35,8 @@ mred_init ()
 {
 	ED.cx = 0;
 	ED.cy = 0;
+	ED.numrows = 0;
+	ED.row = NULL;
 	if (get_window_size (&ED.screenrows, &ED.screencols) == -1)
 		die ("ERR: get window size");
 }

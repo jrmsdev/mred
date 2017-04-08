@@ -6,26 +6,37 @@ mred_draw_rows (struct abuf *ab)
 	int y;
 	for (y = 0; y < ED.screenrows; y++)
 	{
-		if (y == ED.screenrows / 3)
+		if (y >= ED.numrows)
 		{
-			char welcome[80];
-			int welcomelen = snprintf (welcome, sizeof (welcome),
-					"Mr. ED v%s", MRED_VERSION);
-			if (welcomelen > ED.screencols)
-				welcomelen = ED.screencols;
-			int padding = (ED.screencols - welcomelen) / 2;
-			if (padding)
+			if (ED.numrows == 0 && y == ED.screenrows / 3)
+			{
+				char welcome[80];
+				int welcomelen = snprintf (welcome,
+						sizeof (welcome),
+						"Mr. ED v%s", MRED_VERSION);
+				if (welcomelen > ED.screencols)
+					welcomelen = ED.screencols;
+				int padding = (ED.screencols - welcomelen) / 2;
+				if (padding)
+				{
+					ab_append (ab, "~", 1);
+					padding--;
+				}
+				while (padding--)
+					ab_append (ab, " ", 1);
+				ab_append (ab, welcome, welcomelen);
+			}
+			else
 			{
 				ab_append (ab, "~", 1);
-				padding--;
 			}
-			while (padding--)
-				ab_append (ab, " ", 1);
-			ab_append (ab, welcome, welcomelen);
 		}
 		else
 		{
-			ab_append (ab, "~", 1);
+			int len = ED.row[y].size;
+			if (len > ED.screencols)
+				len = ED.screencols;
+			ab_append (ab, ED.row[y].chars, len);
 		}
 		ab_append (ab, "\x1b[K", 3); /* clear rest of the line */
 		if (y < ED.screenrows -1)
