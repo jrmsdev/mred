@@ -35,8 +35,11 @@ mred_init ()
 {
 	ED.cx = 0;
 	ED.cy = 0;
+	ED.rx = 0;
 	ED.numrows = 0;
 	ED.row = NULL;
+	ED.rowoff = 0;
+	ED.coloff = 0;
 	if (get_window_size (&ED.screenrows, &ED.screencols) == -1)
 		die ("ERR: get window size");
 }

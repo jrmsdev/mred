@@ -16,11 +16,14 @@
 #include <unistd.h>
 
 #define MRED_VERSION "0.0"
+#define MRED_TAB_STOP 8
 
 /* data */
 typedef struct {
 	int size;
+	int rsize;
 	char *chars;
+	char *render;
 } edrow;
 
 struct mred_config
@@ -29,8 +32,11 @@ struct mred_config
 	int screenrows;
 	int screencols;
 	int cx, cy; /* cursor position */
+	int rx; /* render cursor position */
 	int numrows;
 	edrow *row;
+	int rowoff;
+	int coloff;
 };
 struct mred_config ED;
 
@@ -74,15 +80,18 @@ void mred_move_cursor (int key);
 /* output.c */
 void mred_draw_rows (struct abuf *ab);
 void mred_refresh_screen ();
+void mred_scroll ();
 
 /* buffer.c */
 void ab_append (struct abuf *ab, const char *s, int len);
 void ab_free (struct abuf *ab);
 
 /* file_io.c */
-void mred_open(char *filename);
+void mred_open (char *filename);
 
 /* row_ops.c */
-void mred_append_row(char *s, size_t len);
+void mred_append_row (char *s, size_t len);
+void mred_update_row (edrow *row);
+int mred_row_cx_to_rx (edrow *row, int cx);
 
 #endif /* !__MRED_H */

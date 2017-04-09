@@ -37,23 +37,42 @@ void mred_process_keypress ()
 void
 mred_move_cursor (int key)
 {
+	edrow *row = (ED.cy >= ED.numrows) ? NULL : &ED.row[ED.cy];
 	switch (key)
 	{
 		case ARROW_LEFT:
 			if (ED.cx != 0)
+			{
 				ED.cx--;
+			}
+			else if (ED.cy > 0)
+			{
+				ED.cy--;
+				ED.cx = ED.row[ED.cy].size;
+			}
 			break;
 		case ARROW_RIGHT:
-			if (ED.cx != ED.screencols - 1)
+			if (row && ED.cx < row->size)
+			{
 				ED.cx++;
+			}
+			else if (row && ED.cx == row->size)
+			{
+				ED.cy++;
+				ED.cx = 0;
+			}
 			break;
 		case ARROW_UP:
 			if (ED.cy != 0)
 				ED.cy--;
 			break;
 		case ARROW_DOWN:
-			if (ED.cy != ED.screenrows - 1)
+			if (ED.cy < ED.numrows)
 				ED.cy++;
 			break;
 	}
+	row = (ED.cy >= ED.numrows) ? NULL : &ED.row[ED.cy];
+	int rowlen = row ? row->size : 0;
+	if (ED.cx > rowlen)
+		ED.cx = rowlen;
 }
