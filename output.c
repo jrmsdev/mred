@@ -124,7 +124,8 @@ mred_draw_status_bar (struct abuf *ab)
 	int len = snprintf (status, sizeof (status), "%.20s - %d lines %s",
 			ED.filename ? ED.filename : "[No Name]", ED.numrows,
 			ED.dirty ? "(modified)" : "");
-	int rlen = snprintf (rstatus, sizeof (rstatus), "%d/%d",
+	int rlen = snprintf (rstatus, sizeof (rstatus), "%s | %d/%d",
+			ED.syntax ? ED.syntax->filetype : "no ft",
 			ED.cy + 1, ED.numrows);
 	if (len > ED.screencols)
 		len = ED.screencols;

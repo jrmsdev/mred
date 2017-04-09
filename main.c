@@ -48,6 +48,7 @@ mred_init ()
 	ED.statusmsg[0] = '\0';
 	ED.statusmsg_time = 0;
 	ED.dirty = 0;
+	ED.syntax = NULL;
 	if (get_window_size (&ED.screenrows, &ED.screencols) == -1)
 		die ("ERR: get window size");
 	ED.screenrows -= 2;

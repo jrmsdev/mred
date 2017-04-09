@@ -5,6 +5,7 @@ mred_open(char *filename)
 {
 	free (ED.filename);
 	ED.filename = strdup (filename);
+	mred_select_syntax_hl ();
 	FILE *fp = fopen (filename, "r");
 	if (!fp)
 		die ("ERR: fopen");
@@ -57,6 +58,7 @@ mred_save ()
 			mred_set_status_message ("Save aborted");
 			return;
 		}
+		mred_select_syntax_hl ();
 	}
 	int len;
 	char *buf = mred_rows_to_string (&len);

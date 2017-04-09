@@ -8,6 +8,8 @@ all: mred.bin
 
 $(OBJS): mred.h
 
+syntax_hl.o: filetypes.h
+
 .c.o:
 	$(CC) $(CFLAGS) -c -fPIC -o $@ $<
 
