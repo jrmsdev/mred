@@ -1,0 +1,12 @@
+Mr. ED
+======
+
+Command line text editor created mainly for learning purposes based on tutorial:
+http://viewsourcecode.org/snaptoken/kilo/
+
+Install
+=======
+$ cd mred
+$ make install PREFIX=/usr/local
+
+By default /opt/pkg is used as PREFIX. DESTDIR is also honored if set.
