@@ -7,7 +7,7 @@ void mred_process_keypress ()
 	switch (c)
 	{
 		case '\r':
-			/* TODO */
+			mred_insert_newline ();
 			break;
 		case CTRL_KEY ('q'):
 			if (ED.dirty && quit_times > 0)
@@ -33,7 +33,9 @@ void mred_process_keypress ()
 		case BACKSPACE:
 		case CTRL_KEY ('h'):
 		case DEL_KEY:
-			/* TODO */
+			if (c == DEL_KEY)
+				mred_move_cursor (ARROW_RIGHT);
+			mred_del_char ();
 			break;
 		case PAGE_UP:
 		case PAGE_DOWN:

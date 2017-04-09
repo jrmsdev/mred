@@ -16,7 +16,7 @@ mred_open(char *filename)
 		if (linelen > 0 && (line[linelen - 1] == '\n' ||
 				line[linelen - 1] == '\r'))
 			linelen--;
-		mred_append_row (line, linelen);
+		mred_insert_row (ED.numrows, line, linelen);
 	}
 	free (line);
 	fclose (fp);

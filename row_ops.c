@@ -1,10 +1,13 @@
 #include "mred.h"
 
 void
-mred_append_row(char *s, size_t len)
+mred_insert_row(int at, char *s, size_t len)
 {
+	if (at < 0 || at > ED.numrows)
+		return;
 	ED.row = realloc (ED.row, sizeof (edrow) * (ED.numrows + 1));
-	int at = ED.numrows;
+	memmove (&ED.row[at + 1], &ED.row[at],
+			sizeof (edrow) * (ED.numrows - at));
 	ED.row[at].size = len;
 	ED.row[at].chars = malloc (len + 1);
 	memcpy (ED.row[at].chars, s, len);
@@ -70,6 +73,51 @@ mred_row_insert_char (edrow *row, int at, int c)
 	memmove (&row->chars[at + 1], &row->chars[at], row->size - at + 1);
 	row->size++;
 	row->chars[at] = c;
+	mred_update_row (row);
+	ED.dirty = 1;
+}
+
+
+void
+mred_row_del_char (edrow *row, int at)
+{
+	if (at < 0 || at >= row->size)
+		return;
+	memmove (&row->chars[at], &row->chars[at + 1], row->size - at);
+	row->size--;
+	mred_update_row (row);
+	ED.dirty = 1;
+}
+
+
+void
+mred_del_row (int at)
+{
+	if (at < 0 || at >= ED.numrows)
+		return;
+	mred_free_row (&ED.row[at]);
+	memmove (&ED.row[at], &ED.row[at + 1],
+			sizeof (edrow) * (ED.numrows - at - 1));
+	ED.numrows--;
+	ED.dirty = 1;
+}
+
+
+void
+mred_free_row (edrow *row)
+{
+	free (row->render);
+	free (row->chars);
+}
+
+
+void
+mred_row_append_string (edrow *row, char *s, size_t len)
+{
+	row->chars = realloc (row->chars, row->size + len + 1);
+	memcpy (&row->chars[row->size], s, len);
+	row->size += len;
+	row->chars[row->size] = '\0';
 	mred_update_row (row);
 	ED.dirty = 1;
 }
