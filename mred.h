@@ -28,6 +28,7 @@ typedef struct {
 	int rsize;
 	char *chars;
 	char *render;
+	unsigned char *hl;
 } edrow;
 
 struct mred_config
@@ -48,13 +49,32 @@ struct mred_config
 };
 struct mred_config ED;
 
+enum mred_key
+{
+        BACKSPACE = 127,
+        ARROW_LEFT = 1000,
+        ARROW_RIGHT,
+        ARROW_UP,
+        ARROW_DOWN,
+        DEL_KEY,
+        HOME_KEY,
+        END_KEY,
+        PAGE_UP,
+        PAGE_DOWN
+};
+
+enum mred_highlight {
+	HL_NORMAL = 0,
+	HL_NUMBER,
+	HL_MATCH
+};
+
 /* append buffer */
 struct abuf
 {
 	char *b;
 	int len;
 };
-
 #define ABUF_INIT {NULL, 0}
 
 /* main.c */
@@ -70,19 +90,6 @@ int get_cursor_position (int *rows, int *cols);
 
 /* input.c */
 #define CTRL_KEY(k) ((k) & 0x1f)
-enum mred_key
-{
-	BACKSPACE = 127,
-	ARROW_LEFT = 1000,
-	ARROW_RIGHT,
-	ARROW_UP,
-	ARROW_DOWN,
-	DEL_KEY,
-	HOME_KEY,
-	END_KEY,
-	PAGE_UP,
-	PAGE_DOWN
-};
 void mred_process_keypress ();
 void mred_move_cursor (int key);
 char * mred_prompt (char *prompt, void (*callback)(char *, int));
@@ -123,5 +130,9 @@ void mred_insert_newline ();
 /* find.c */
 void mred_find_callback (char *query, int key);
 void mred_find ();
+
+/* syntax_hl.c */
+void mred_update_syntax (edrow *row);
+int mred_syntax_to_color (int hl);
 
 #endif /* !__MRED_H */

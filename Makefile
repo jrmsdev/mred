@@ -1,7 +1,7 @@
 PREFIX ?= /opt/pkg
 CFLAGS += -Wall -Wextra -pedantic -std=c99
 OBJS := main.o terminal.o input.o output.o buffer.o file_io.o row_ops.o \
-	ed_ops.o find.o
+	ed_ops.o find.o syntax_hl.o
 
 .PHONY: all
 all: mred.bin

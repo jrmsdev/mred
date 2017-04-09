@@ -14,6 +14,7 @@ mred_insert_row(int at, char *s, size_t len)
 	ED.row[at].chars[len] = '\0';
 	ED.row[at].rsize = 0;
 	ED.row[at].render = NULL;
+	ED.row[at].hl = NULL;
 	mred_update_row (&ED.row[at]);
 	ED.numrows++;
 	ED.dirty = 1;
@@ -46,6 +47,7 @@ mred_update_row (edrow *row)
 	}
 	row->render[idx] = '\0';
 	row->rsize = idx;
+	mred_update_syntax (row);
 }
 
 
@@ -107,7 +109,11 @@ void
 mred_free_row (edrow *row)
 {
 	free (row->render);
+	row->render = NULL;
 	free (row->chars);
+	row->chars = NULL;
+	free (row->hl);
+	row->hl = NULL;
 }
 
 

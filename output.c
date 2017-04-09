@@ -39,7 +39,35 @@ mred_draw_rows (struct abuf *ab)
 				len = 0;
 			if (len > ED.screencols)
 				len = ED.screencols;
-			ab_append (ab, &ED.row[filerow].render[ED.coloff], len);
+			char *c = &ED.row[filerow].render[ED.coloff];
+			unsigned char *hl = &ED.row[filerow].hl[ED.coloff];
+			int cur_color = -1;
+			for (int j = 0; j < len; j++)
+			{
+				if (hl[j] == HL_NORMAL)
+				{
+					if (cur_color != -1)
+					{
+						ab_append (ab, "\x1b[39m", 5);
+						cur_color = -1;
+					}
+					ab_append (ab, &c[j], 1);
+				}
+				else
+				{
+					int color = mred_syntax_to_color (hl[j]);
+					if (color != cur_color)
+					{
+						cur_color = color;
+						char buf[16];
+						int clen = snprintf (buf, sizeof (buf),
+								"\x1b[%dm", color);
+						ab_append (ab, buf, clen);
+					}
+					ab_append (ab, &c[j], 1);
+				}
+			}
+			ab_append (ab, "\x1b[39m", 5);
 		}
 		ab_append (ab, "\x1b[K", 3); /* clear rest of the line */
 		ab_append (ab, "\r\n", 2);
