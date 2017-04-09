@@ -14,11 +14,16 @@ void mred_process_keypress ()
 			ED.cx = 0;
 			break;
 		case END_KEY:
-			ED.cx = ED.screencols - 1;
+			if (ED.cy < ED.numrows)
+				ED.cx = ED.row[ED.cy].size;
 			break;
 		case PAGE_UP:
 		case PAGE_DOWN:
 			{
+				if (c == PAGE_UP)
+					ED.cy = ED.rowoff;
+				else if (c == PAGE_DOWN)
+					ED.cy = ED.rowoff + ED.screenrows - 1;
 				int times = ED.screenrows;
 				while (times--)
 					mred_move_cursor (c == PAGE_UP ?

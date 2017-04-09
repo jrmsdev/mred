@@ -18,4 +18,6 @@ mred_open(char *filename)
 	}
 	free (line);
 	fclose (fp);
+	free (ED.filename);
+	ED.filename = strdup (filename);
 }

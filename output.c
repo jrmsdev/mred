@@ -42,8 +42,7 @@ mred_draw_rows (struct abuf *ab)
 			ab_append (ab, &ED.row[filerow].render[ED.coloff], len);
 		}
 		ab_append (ab, "\x1b[K", 3); /* clear rest of the line */
-		if (y < ED.screenrows -1)
-			ab_append (ab, "\r\n", 2);
+		ab_append (ab, "\r\n", 2);
 	}
 }
 
@@ -55,7 +54,10 @@ mred_refresh_screen ()
 	struct abuf ab = ABUF_INIT;
 	ab_append (&ab, "\x1b[?25l", 6); /* hide cursor */
 	ab_append (&ab, "\x1b[H", 3);
+
 	mred_draw_rows (&ab);
+	mred_draw_status_bar (&ab);
+	mred_draw_message_bar (&ab);
 
 	char buf[32];
 	snprintf (buf, sizeof (buf), "\x1b[%d;%dH",
@@ -82,4 +84,58 @@ mred_scroll ()
 		ED.coloff = ED.rx;
 	if (ED.rx >= ED.coloff + ED.screencols)
 		ED.coloff = ED.rx - ED.screencols + 1;
+}
+
+
+void
+mred_draw_status_bar (struct abuf *ab)
+{
+	ab_append (ab, "\x1b[7m", 4); /* inverted colors */
+	char status[80];
+	char rstatus[80];
+	int len = snprintf (status, sizeof (status), "%.20s - %d lines",
+			ED.filename ? ED.filename : "[No Name]", ED.numrows);
+	int rlen = snprintf (rstatus, sizeof (rstatus), "%d/%d",
+			ED.cy + 1, ED.numrows);
+	if (len > ED.screencols)
+		len = ED.screencols;
+	ab_append (ab, status, len);
+	while (len < ED.screencols)
+	{
+		if (ED.screencols - len == rlen)
+		{
+			ab_append (ab, rstatus, rlen);
+			break;
+		}
+		else
+		{
+			ab_append (ab, " ", 1);
+			len++;
+		}
+	}
+	ab_append (ab, "\x1b[m", 3); /* get back to normal colors */
+	ab_append (ab, "\r\n", 2);
+}
+
+
+void
+mred_set_status_message (const char *fmt, ...)
+{
+	va_list ap;
+	va_start (ap, fmt);
+	vsnprintf (ED.statusmsg, sizeof (ED.statusmsg), fmt, ap);
+	va_end (ap);
+	ED.statusmsg_time = time(NULL);
+}
+
+
+void
+mred_draw_message_bar (struct abuf *ab)
+{
+	ab_append (ab, "\x1b[K", 3);
+	int msglen = strlen (ED.statusmsg);
+	if (msglen > ED.screencols)
+		msglen = ED.screencols;
+	if (msglen && time(NULL) - ED.statusmsg_time < 5)
+		ab_append (ab, ED.statusmsg, msglen);
 }

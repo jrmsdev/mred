@@ -8,11 +8,13 @@
 #include <ctype.h>
 #include <errno.h>
 #include <stdio.h>
+#include <stdarg.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/ioctl.h>
 #include <sys/types.h>
 #include <termios.h>
+#include <time.h>
 #include <unistd.h>
 
 #define MRED_VERSION "0.0"
@@ -37,6 +39,9 @@ struct mred_config
 	edrow *row;
 	int rowoff;
 	int coloff;
+	char *filename;
+	char statusmsg[80];
+	time_t statusmsg_time;
 };
 struct mred_config ED;
 
@@ -81,6 +86,9 @@ void mred_move_cursor (int key);
 void mred_draw_rows (struct abuf *ab);
 void mred_refresh_screen ();
 void mred_scroll ();
+void mred_draw_status_bar (struct abuf *ab);
+void mred_set_status_message (const char *fmt, ...);
+void mred_draw_message_bar (struct abuf *ab);
 
 /* buffer.c */
 void ab_append (struct abuf *ab, const char *s, int len);
