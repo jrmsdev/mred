@@ -13,6 +13,7 @@ mred_append_row(char *s, size_t len)
 	ED.row[at].render = NULL;
 	mred_update_row (&ED.row[at]);
 	ED.numrows++;
+	ED.dirty = 1;
 }
 
 
@@ -70,4 +71,5 @@ mred_row_insert_char (edrow *row, int at, int c)
 	row->size++;
 	row->chars[at] = c;
 	mred_update_row (row);
+	ED.dirty = 1;
 }

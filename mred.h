@@ -7,6 +7,7 @@
 
 #include <ctype.h>
 #include <errno.h>
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>
@@ -19,6 +20,7 @@
 
 #define MRED_VERSION "0.0"
 #define MRED_TAB_STOP 8
+#define MRED_QUIT_TIMES 2
 
 /* data */
 typedef struct {
@@ -42,6 +44,7 @@ struct mred_config
 	char *filename;
 	char statusmsg[80];
 	time_t statusmsg_time;
+	int dirty;
 };
 struct mred_config ED;
 
@@ -97,6 +100,8 @@ void ab_free (struct abuf *ab);
 
 /* file_io.c */
 void mred_open (char *filename);
+char * mred_rows_to_string (int *buflen);
+void mred_save ();
 
 /* row_ops.c */
 void mred_append_row (char *s, size_t len);

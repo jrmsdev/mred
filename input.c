@@ -2,6 +2,7 @@
 
 void mred_process_keypress ()
 {
+	static int quit_times = MRED_QUIT_TIMES;
 	int c = mred_read_key ();
 	switch (c)
 	{
@@ -9,9 +10,18 @@ void mred_process_keypress ()
 			/* TODO */
 			break;
 		case CTRL_KEY ('q'):
+			if (ED.dirty && quit_times > 0)
+			{
+				mred_set_status_message("WARNING! Unsaved changes. Press Ctrl-Q %d more times to quit.", quit_times);
+				quit_times--;
+				return;
+			}
 			write (STDOUT_FILENO, "\x1b[2J", 4);
 			write (STDOUT_FILENO, "\x1b[H", 3);
 			exit (0);
+			break;
+		case CTRL_KEY ('s'):
+			mred_save ();
 			break;
 		case HOME_KEY:
 			ED.cx = 0;
@@ -37,6 +47,7 @@ void mred_process_keypress ()
 					mred_move_cursor (c == PAGE_UP ?
 							ARROW_UP : ARROW_DOWN);
 			}
+			break;
 		case ARROW_UP:
 		case ARROW_DOWN:
 		case ARROW_LEFT:
@@ -50,6 +61,7 @@ void mred_process_keypress ()
 			mred_insert_char (c);
 			break;
 	}
+	quit_times = MRED_QUIT_TIMES;
 }
 
 

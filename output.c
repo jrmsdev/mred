@@ -93,8 +93,9 @@ mred_draw_status_bar (struct abuf *ab)
 	ab_append (ab, "\x1b[7m", 4); /* inverted colors */
 	char status[80];
 	char rstatus[80];
-	int len = snprintf (status, sizeof (status), "%.20s - %d lines",
-			ED.filename ? ED.filename : "[No Name]", ED.numrows);
+	int len = snprintf (status, sizeof (status), "%.20s - %d lines %s",
+			ED.filename ? ED.filename : "[No Name]", ED.numrows,
+			ED.dirty ? "(modified)" : "");
 	int rlen = snprintf (rstatus, sizeof (rstatus), "%d/%d",
 			ED.cy + 1, ED.numrows);
 	if (len > ED.screencols)

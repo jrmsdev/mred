@@ -12,7 +12,7 @@ main (int argc, char *argv[]) {
 	if (argc >= 2)
 		mred_open (argv[1]);
 
-	mred_set_status_message ("HELP: Ctrl-Q = quit");
+	mred_set_status_message ("HELP: Ctrl-Q = quit | Ctrl-S = save");
 
 	while (1)
 	{
@@ -46,6 +46,7 @@ mred_init ()
 	ED.filename = NULL;
 	ED.statusmsg[0] = '\0';
 	ED.statusmsg_time = 0;
+	ED.dirty = 0;
 	if (get_window_size (&ED.screenrows, &ED.screencols) == -1)
 		die ("ERR: get window size");
 	ED.screenrows -= 2;
