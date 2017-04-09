@@ -69,6 +69,7 @@ int get_cursor_position (int *rows, int *cols);
 #define CTRL_KEY(k) ((k) & 0x1f)
 enum mred_key
 {
+	BACKSPACE = 127,
 	ARROW_LEFT = 1000,
 	ARROW_RIGHT,
 	ARROW_UP,
@@ -101,5 +102,9 @@ void mred_open (char *filename);
 void mred_append_row (char *s, size_t len);
 void mred_update_row (edrow *row);
 int mred_row_cx_to_rx (edrow *row, int cx);
+void mred_row_insert_char (edrow *row, int at, int c);
+
+/* ed_ops.c */
+void mred_insert_char (int c);
 
 #endif /* !__MRED_H */

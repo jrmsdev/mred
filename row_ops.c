@@ -58,3 +58,16 @@ mred_row_cx_to_rx (edrow *row, int cx)
 	}
 	return rx;
 }
+
+
+void
+mred_row_insert_char (edrow *row, int at, int c)
+{
+	if (at < 0 || at > row->size)
+		at = row->size;
+	row->chars = realloc (row->chars, row->size + 1);
+	memmove (&row->chars[at + 1], &row->chars[at], row->size - at + 1);
+	row->size++;
+	row->chars[at] = c;
+	mred_update_row (row);
+}

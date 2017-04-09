@@ -5,6 +5,9 @@ void mred_process_keypress ()
 	int c = mred_read_key ();
 	switch (c)
 	{
+		case '\r':
+			/* TODO */
+			break;
 		case CTRL_KEY ('q'):
 			write (STDOUT_FILENO, "\x1b[2J", 4);
 			write (STDOUT_FILENO, "\x1b[H", 3);
@@ -16,6 +19,11 @@ void mred_process_keypress ()
 		case END_KEY:
 			if (ED.cy < ED.numrows)
 				ED.cx = ED.row[ED.cy].size;
+			break;
+		case BACKSPACE:
+		case CTRL_KEY ('h'):
+		case DEL_KEY:
+			/* TODO */
 			break;
 		case PAGE_UP:
 		case PAGE_DOWN:
@@ -34,6 +42,12 @@ void mred_process_keypress ()
 		case ARROW_LEFT:
 		case ARROW_RIGHT:
 			mred_move_cursor (c);
+			break;
+		case CTRL_KEY ('l'):
+		case '\x1b':
+			break;
+		default:
+			mred_insert_char (c);
 			break;
 	}
 }
