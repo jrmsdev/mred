@@ -109,3 +109,48 @@ mred_move_cursor (int key)
 	if (ED.cx > rowlen)
 		ED.cx = rowlen;
 }
+
+
+char *
+mred_prompt (char *prompt)
+{
+	size_t bufsize = 128;
+	char *buf = malloc (bufsize);
+	size_t buflen = 0;
+	buf[0] = '\0';
+	while (1)
+	{
+		mred_set_status_message (prompt, buf);
+		mred_refresh_screen ();
+		int c = mred_read_key ();
+		if (c == DEL_KEY || c == CTRL_KEY ('h') || c == BACKSPACE)
+		{
+			if (buflen != 0)
+				buf[--buflen] = '\0';
+		}
+		else if (c == '\x1b')
+		{
+			mred_set_status_message ("");
+			free (buf);
+			return NULL;
+		}
+		else if (c == '\r')
+		{
+			if (buflen != 0)
+			{
+				mred_set_status_message ("");
+				return buf;
+			}
+		}
+		else if (!iscntrl (c) && c < 128)
+		{
+			if (buflen == bufsize -1)
+			{
+				bufsize *= 2;
+				buf = realloc (buf, bufsize);
+			}
+			buf[buflen++] = c;
+			buf[buflen] = '\0';
+		}
+	}
+}

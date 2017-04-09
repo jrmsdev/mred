@@ -50,7 +50,14 @@ void
 mred_save ()
 {
 	if (ED.filename == NULL)
-		return;
+	{
+		ED.filename = mred_prompt ("Save as: %s");
+		if (ED.filename == NULL)
+		{
+			mred_set_status_message ("Save aborted");
+			return;
+		}
+	}
 	int len;
 	char *buf = mred_rows_to_string (&len);
 	int fd = open (ED.filename, O_RDWR | O_CREAT, 0644);

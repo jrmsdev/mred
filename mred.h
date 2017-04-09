@@ -85,6 +85,7 @@ enum mred_key
 };
 void mred_process_keypress ();
 void mred_move_cursor (int key);
+char * mred_prompt (char *prompt);
 
 /* output.c */
 void mred_draw_rows (struct abuf *ab);
