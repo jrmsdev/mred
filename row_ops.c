@@ -121,3 +121,20 @@ mred_row_append_string (edrow *row, char *s, size_t len)
 	mred_update_row (row);
 	ED.dirty = 1;
 }
+
+
+int
+mred_row_rx_to_cx (edrow *row, int rx)
+{
+	int cur_rx = 0;
+	int cx;
+	for (cx = 0; cx < row->size; cx++)
+	{
+		if (row->chars[cx] == '\t')
+			cur_rx += (MRED_TAB_STOP - 1) - (cur_rx % MRED_TAB_STOP);
+		cur_rx++;
+		if (cur_rx > rx)
+			return cx;
+	}
+	return cx;
+}

@@ -30,6 +30,9 @@ void mred_process_keypress ()
 			if (ED.cy < ED.numrows)
 				ED.cx = ED.row[ED.cy].size;
 			break;
+		case CTRL_KEY ('f'):
+			mred_find ();
+			break;
 		case BACKSPACE:
 		case CTRL_KEY ('h'):
 		case DEL_KEY:
@@ -112,7 +115,7 @@ mred_move_cursor (int key)
 
 
 char *
-mred_prompt (char *prompt)
+mred_prompt (char *prompt, void (*callback)(char *, int))
 {
 	size_t bufsize = 128;
 	char *buf = malloc (bufsize);
@@ -131,6 +134,8 @@ mred_prompt (char *prompt)
 		else if (c == '\x1b')
 		{
 			mred_set_status_message ("");
+			if (callback)
+				callback (buf, c);
 			free (buf);
 			return NULL;
 		}
@@ -139,6 +144,8 @@ mred_prompt (char *prompt)
 			if (buflen != 0)
 			{
 				mred_set_status_message ("");
+				if (callback)
+					callback (buf, c);
 				return buf;
 			}
 		}
@@ -152,5 +159,7 @@ mred_prompt (char *prompt)
 			buf[buflen++] = c;
 			buf[buflen] = '\0';
 		}
+		if (callback)
+			callback (buf, c);
 	}
 }

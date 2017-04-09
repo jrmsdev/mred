@@ -51,7 +51,7 @@ mred_save ()
 {
 	if (ED.filename == NULL)
 	{
-		ED.filename = mred_prompt ("Save as: %s");
+		ED.filename = mred_prompt ("Save as: %s (ESC to cancel)", NULL);
 		if (ED.filename == NULL)
 		{
 			mred_set_status_message ("Save aborted");

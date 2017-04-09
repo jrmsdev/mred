@@ -12,7 +12,8 @@ main (int argc, char *argv[]) {
 	if (argc >= 2)
 		mred_open (argv[1]);
 
-	mred_set_status_message ("HELP: Ctrl-Q = quit | Ctrl-S = save");
+	mred_set_status_message (
+			"HELP: Ctrl-Q = quit | Ctrl-S = save | Ctrl-F = find");
 
 	while (1)
 	{

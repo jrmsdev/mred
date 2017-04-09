@@ -85,7 +85,7 @@ enum mred_key
 };
 void mred_process_keypress ();
 void mred_move_cursor (int key);
-char * mred_prompt (char *prompt);
+char * mred_prompt (char *prompt, void (*callback)(char *, int));
 
 /* output.c */
 void mred_draw_rows (struct abuf *ab);
@@ -113,10 +113,15 @@ void mred_row_del_char (edrow *row, int at);
 void mred_del_row (int at);
 void mred_free_row (edrow *row);
 void mred_row_append_string (edrow *row, char *s, size_t len);
+int mred_row_rx_to_cx (edrow *row, int rx);
 
 /* ed_ops.c */
 void mred_insert_char (int c);
 void mred_del_char ();
 void mred_insert_newline ();
+
+/* find.c */
+void mred_find_callback (char *query, int key);
+void mred_find ();
 
 #endif /* !__MRED_H */
