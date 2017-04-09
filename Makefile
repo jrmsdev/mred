@@ -18,9 +18,12 @@ clean:
 	@rm -vf mred.bin $(OBJS)
 
 .PHONY: install
-install: mred.bin
+install: .do-install
+
+.do-install: mred.bin
 	@mkdir -vp $(DESTDIR)$(PREFIX)/bin
 	@install -v -m 0555 mred.bin $(DESTDIR)$(PREFIX)/bin/mred
+	@touch .do-install
 
 .PHONY: uninstall
 uninstall:
