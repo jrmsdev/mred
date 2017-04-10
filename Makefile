@@ -25,9 +25,12 @@ install: .do-install
 
 .do-install: mred.bin
 	@mkdir -vp $(DESTDIR)$(PREFIX)/bin
+	@mkdir -vp $(DESTDIR)$(PREFIX)/share/licenses/mred
 	@install -v -m 0555 mred.bin $(DESTDIR)$(PREFIX)/bin/mred
+	@install -v -m 0444 LICENSE $(DESTDIR)$(PREFIX)/share/licenses/mred
 	@touch .do-install
 
 .PHONY: uninstall
 uninstall:
 	@rm -vf $(DESTDIR)$(PREFIX)/bin/mred
+	@rm -vrf $(DESTDIR)$(PREFIX)/share/licenses/mred
