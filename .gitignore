@@ -1,3 +1,2 @@
-*.swp
 .do-install
 build/*
