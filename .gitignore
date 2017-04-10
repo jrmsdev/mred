@@ -1,4 +1,3 @@
-*.o
 *.swp
 .do-install
-mred.bin
+build/*

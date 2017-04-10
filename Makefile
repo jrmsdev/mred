@@ -1,7 +1,9 @@
 PREFIX ?= /opt/pkg
 
 .PHONY: all
-all:
+all: ./build/mred.bin
+
+./build/mred.bin:
 	@mkdir -vp ./build
 	@cp -f Makefile.build ./build/Makefile
 	@(cd ./build && $(CC) -E -MM ../*.c >>Makefile)
@@ -14,7 +16,7 @@ clean:
 .PHONY: install
 install: .do-install
 
-.do-install: all
+.do-install: ./build/mred.bin
 	@mkdir -vp $(DESTDIR)$(PREFIX)/bin
 	@mkdir -vp $(DESTDIR)$(PREFIX)/share/licenses/mred
 	@install -v -m 0555 ./build/mred.bin $(DESTDIR)$(PREFIX)/bin/mred
