@@ -30,15 +30,19 @@ struct mred_syntax {
 	char **filematch;
 	char **keywords;
 	char *singleline_comment_start;
+	char *multiline_comment_start;
+	char *multiline_comment_end;
 	int flags;
 };
 
 typedef struct {
+	int idx;
 	int size;
 	int rsize;
 	char *chars;
 	char *render;
 	unsigned char *hl;
+	int hl_open_comment;
 } edrow;
 
 struct mred_config
@@ -77,6 +81,7 @@ enum mred_key
 enum mred_highlight {
 	HL_NORMAL = 0,
 	HL_COMMENT,
+	HL_MLCOMMENT,
 	HL_KEYWORD1,
 	HL_KEYWORD2,
 	HL_STRING,

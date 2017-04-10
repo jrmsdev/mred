@@ -44,7 +44,21 @@ mred_draw_rows (struct abuf *ab)
 			int cur_color = -1;
 			for (int j = 0; j < len; j++)
 			{
-				if (hl[j] == HL_NORMAL)
+				if (iscntrl (c[j]))
+				{
+					char sym = (c[j] <= 26) ? '@' + c[j] : '?';
+					ab_append (ab, "\x1b[7m", 4);
+					ab_append (ab, &sym, 1);
+					ab_append (ab, "\x1b[m", 3);
+					if (cur_color != -1)
+					{
+						char buf[16];
+						int clen = snprintf (buf, sizeof(buf),
+								"\x1b[%dm", cur_color);
+						ab_append (ab, buf, clen);
+					}
+				}
+				else if (hl[j] == HL_NORMAL)
 				{
 					if (cur_color != -1)
 					{

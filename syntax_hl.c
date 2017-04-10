@@ -17,22 +17,55 @@ mred_update_syntax (edrow *row)
 		return;
 	char **keywords = ED.syntax->keywords;
 	char *scs = ED.syntax->singleline_comment_start;
+	char *mcs = ED.syntax->multiline_comment_start;
+	char *mce = ED.syntax->multiline_comment_end;
 	int scs_len = scs ? strlen (scs) : 0;
+	int mcs_len = mcs ? strlen (mcs) : 0;
+	int mce_len = mce ? strlen (mce) : 0;
 	int prev_sep = 1;
 	int in_string = 0;
+	int in_comment = (row->idx > 0 && ED.row[row->idx - 1].hl_open_comment);
 	int i = 0;
 	while (i < row->size)
 	{
 		char c = row->render[i];
 		unsigned char prev_hl = (i > 0) ? row->hl[i - 1] : HL_NORMAL;
 
-		if (scs_len && !in_string)
+		if (scs_len && !in_string && !in_comment)
 		{
 			if (!strncmp (&row->render[i], scs, scs_len))
 			{
 			memset (&row->hl[i], HL_COMMENT,
 						row->rsize - i);
 				break;
+			}
+		}
+
+		if (mcs_len && mce_len && !in_string)
+		{
+			if (in_comment)
+			{
+				row->hl[i] = HL_MLCOMMENT;
+				if (!strncmp (&row->render[i], mce, mce_len))
+				{
+					memset (&row->hl[i], HL_MLCOMMENT, mce_len);
+					i += mce_len;
+					in_comment = 0;
+					prev_sep = 1;
+					continue;
+				}
+				else
+				{
+					i++;
+					continue;
+				}
+			}
+			else if (!strncmp (&row->render[i], mcs, mcs_len))
+			{
+				memset (&row->hl[i], HL_MLCOMMENT, mcs_len);
+				i += mcs_len;
+				in_comment = 1;
+				continue;
 			}
 		}
 
@@ -104,6 +137,11 @@ mred_update_syntax (edrow *row)
 		prev_sep = is_separator (c);
 		i++;
 	}
+
+	int changed = (row->hl_open_comment != in_comment);
+	row->hl_open_comment = in_comment;
+	if (changed && row->idx + 1 < ED.numrows)
+		mred_update_syntax (&ED.row[row->idx + 1]);
 }
 
 
@@ -113,6 +151,7 @@ mred_syntax_to_color (int hl)
 	switch (hl)
 	{
 		case HL_COMMENT:
+		case HL_MLCOMMENT:
 			return 36; /* cyan */
 		case HL_KEYWORD1:
 			return 33; /* yellow */
