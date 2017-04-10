@@ -7,7 +7,7 @@
 char *C_HL_ext[] = {".c", ".h", ".cpp", NULL};
 char *C_HL_kws[] = {
   "switch", "if", "while", "for", "break", "continue", "return", "else",
-  "struct", "union", "typedef", "static", "enum", "class", "case",
+  "struct", "union", "typedef", "static", "enum", "class", "case", "default",
   "#define", "#ifdef", "#ifndef", "#endif", "#include",
 
   "int|", "long|", "double|", "float|", "char|", "unsigned|", "signed|",
