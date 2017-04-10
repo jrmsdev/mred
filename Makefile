@@ -1,32 +1,23 @@
 PREFIX ?= /opt/pkg
-CFLAGS += -Wall -Wextra -pedantic -std=c99
-OBJS := main.o terminal.o input.o output.o buffer.o file_io.o row_ops.o \
-	ed_ops.o find.o syntax_hl.o
 
 .PHONY: all
-all: mred.bin
-
-$(OBJS): mred.h
-
-syntax_hl.o: filetypes.h
-
-.c.o:
-	$(CC) $(CFLAGS) -c -fPIC -o $@ $<
-
-mred.bin: $(OBJS)
-	$(CC) $(CFLAGS) -o mred.bin $(OBJS)
+all:
+	@mkdir -vp ./build
+	@cp -f Makefile.build ./build/Makefile
+	@(cd ./build && $(CC) -E -MM ../*.c >>Makefile)
+	@$(MAKE) -C build build
 
 .PHONY: clean
 clean:
-	@rm -vf .do-install mred.bin $(OBJS)
+	@rm -vrf .do-install ./build
 
 .PHONY: install
 install: .do-install
 
-.do-install: mred.bin
+.do-install: all
 	@mkdir -vp $(DESTDIR)$(PREFIX)/bin
 	@mkdir -vp $(DESTDIR)$(PREFIX)/share/licenses/mred
-	@install -v -m 0555 mred.bin $(DESTDIR)$(PREFIX)/bin/mred
+	@install -v -m 0555 ./build/mred.bin $(DESTDIR)$(PREFIX)/bin/mred
 	@install -v -m 0444 LICENSE $(DESTDIR)$(PREFIX)/share/licenses/mred
 	@touch .do-install
 
