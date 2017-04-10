@@ -26,9 +26,11 @@
 /* data */
 
 struct mred_syntax {
-        char *filetype;
-        char **filematch;
-        int flags;
+	char *filetype;
+	char **filematch;
+	char **keywords;
+	char *singleline_comment_start;
+	int flags;
 };
 
 typedef struct {
@@ -74,6 +76,10 @@ enum mred_key
 
 enum mred_highlight {
 	HL_NORMAL = 0,
+	HL_COMMENT,
+	HL_KEYWORD1,
+	HL_KEYWORD2,
+	HL_STRING,
 	HL_NUMBER,
 	HL_MATCH
 };
