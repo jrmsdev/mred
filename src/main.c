@@ -52,4 +52,39 @@ mred_init ()
 	if (get_window_size (&ED.screenrows, &ED.screencols) == -1)
 		die ("ERR: get window size");
 	ED.screenrows -= 2;
+	atexit (mred_free);
+}
+
+
+void
+mred_free ()
+{
+	for (int i = 0; i < ED.numrows; i++)
+	{
+		if (ED.row[i].chars != NULL)
+		{
+			free (ED.row[i].chars);
+			ED.row[i].chars = NULL;
+		}
+		if (ED.row[i].render != NULL)
+		{
+			free (ED.row[i].render);
+			ED.row[i].render = NULL;
+		}
+		if (ED.row[i].hl != NULL)
+		{
+			free (ED.row[i].hl);
+			ED.row[i].hl = NULL;
+		}
+	}
+	if (ED.row != NULL)
+	{
+		free (ED.row);
+		ED.row = NULL;
+	}
+	if (ED.filename != NULL)
+	{
+		free (ED.filename);
+		ED.filename = NULL;
+	}
 }

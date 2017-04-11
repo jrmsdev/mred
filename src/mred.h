@@ -104,6 +104,7 @@ struct abuf
 
 void die (const char *s);
 void mred_init ();
+void mred_free ();
 
 
 /* terminal.c */
