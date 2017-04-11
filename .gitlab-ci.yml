@@ -1,0 +1,15 @@
+stages:
+   - build
+
+before_script:
+    - cc --version
+
+.script: &build_script
+    - make
+
+build_gcc:
+    stage: build
+    only:
+        - next
+    image: gcc
+    script: *build_script
