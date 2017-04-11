@@ -1,5 +1,5 @@
 PREFIX ?= /opt/pkg
-TESTS_CFLAGS := $(CFLAGS) -std=c11 -O0 -g
+TESTS_CFLAGS := $(CFLAGS) -std=c11 -O0 -ggdb
 
 
 .PHONY: all
@@ -15,7 +15,7 @@ build:
 
 .PHONY: clean
 clean:
-	@rm -vrf .do-install ./build ./tests/*.test
+	@rm -vrf .do-install ./build ./tests/*.test ./tests/*.vgout
 
 
 .PHONY: install
@@ -43,3 +43,9 @@ uninstall:
 check:
 	@(cd ./tests && \
 		CC=$(CC) CFLAGS='$(TESTS_CFLAGS)' ../scripts/run-tests.sh)
+
+
+.PHONY: check-valgrind
+check-valgrind:
+	@(cd ./tests && CC=$(CC) CFLAGS='$(TESTS_CFLAGS)' \
+		../scripts/run-tests.sh --valgrind)

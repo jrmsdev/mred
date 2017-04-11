@@ -1,5 +1,8 @@
 #!/bin/sh
 
+TEST_VALGRIND=false
+VG_ARGS='--quiet --error-exitcode=128 --leak-check=full --show-leak-kinds=all'
+
 t_compile()
 {
 	local t_name=$1
@@ -19,14 +22,19 @@ t_run()
 		echo "[FAIL] ${t_name} not found"
 		return 1
 	}
-	./${t_name}.test
+	if $TEST_VALGRIND
+	then
+		valgrind $VG_ARGS --log-file=./${t_name}.vgout ./${t_name}.test
+	else
+		./${t_name}.test
+	fi
 	local t_status=$?
 	test $t_status -eq 0 || {
 		echo "[FAIL] ${t_name} (${t_status})"
 		return 1
 	}
 	echo "[OK] ${t_name}"
-	rm -f ./${t_name}.test
+	rm -f ./${t_name}.test ./${t_name}.vgout
 	return 0
 }
 
@@ -53,6 +61,15 @@ test "`basename $(pwd)`" = "tests" || {
 	echo "[ERROR] should run inside tests dir"
 	exit 1
 }
+
+if test "$1" = "--valgrind"
+then
+	TEST_VALGRIND=true
+	which valgrind >/dev/null 2>/dev/null || {
+		echo "[ERROR] valgrind command not found"
+		exit 1
+	}
+fi
 
 t_main
 exit 0

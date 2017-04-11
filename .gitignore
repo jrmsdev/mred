@@ -1,3 +1,4 @@
 .do-install
 build/*
 tests/*.test
+tests/*.vgout
