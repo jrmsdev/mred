@@ -7,7 +7,7 @@ VG_ARGS="$VG_ARGS --track-origins=yes"
 t_compile()
 {
 	local t_name=$1
-	$CC $CFLAGS -o ${t_name}.test ${t_name}.c
+	$MAKE ${t_name}.test >/dev/null
 	test $? -eq 0 || {
 		echo "[FAIL] compile ${t_name}"
 		return 1
@@ -35,7 +35,7 @@ t_run()
 		return 1
 	}
 	echo "[PASS] ${t_name}"
-	rm -f ./${t_name}.test ./${t_name}.vgout
+	rm -f ./${t_name}.vgout
 	return 0
 }
 
@@ -50,12 +50,12 @@ t_main()
 }
 
 
-test -z "$CC" && {
-	echo "[ERROR] CC env var not set"
+test -z "$MAKE" && {
+	echo "[ERROR] MAKE env var not set"
 	exit 1
 }
-test -z "$CFLAGS" && {
-	echo "[ERROR] CFLAGS env var not set"
+which $MAKE >/dev/null 2>/dev/null || {
+	echo "[ERROR] $MAKE command not found"
 	exit 1
 }
 test "`basename $(pwd)`" = "tests" || {
@@ -72,8 +72,6 @@ then
 	}
 	echo "[INFO] TEST_VALGRIND='$TEST_VALGRIND'"
 fi
-
-echo "[INFO] CC='$CC' CFLAGS='$CFLAGS'"
 
 t_main
 exit 0
