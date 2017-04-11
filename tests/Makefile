@@ -1,7 +1,7 @@
 CFLAGS := -Wall -Wextra -pedantic -pipe -march=native -std=c11 -O0 -ggdb
 
 .SUFFIXES:
-.SUFFIXES: .test .c
+.SUFFIXES: .bin .c
 
-.c.test:
+.c.bin:
 	@$(CC) $(CFLAGS) -o $@ $<

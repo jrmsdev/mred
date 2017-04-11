@@ -14,7 +14,7 @@ build:
 
 .PHONY: clean
 clean:
-	@rm -vrf .do-install ./build ./tests/*.test ./tests/*.vgout
+	@rm -vrf .do-install ./build ./tests/*.bin ./tests/*.vgout
 
 
 .PHONY: install

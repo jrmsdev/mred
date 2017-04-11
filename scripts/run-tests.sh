@@ -7,7 +7,7 @@ VG_ARGS="$VG_ARGS --track-origins=yes"
 t_compile()
 {
 	local t_name=$1
-	$MAKE ${t_name}.test >/dev/null
+	$MAKE ${t_name}.bin >/dev/null
 	test $? -eq 0 || {
 		echo "[FAIL] compile ${t_name}"
 		return 1
@@ -19,15 +19,15 @@ t_compile()
 t_run()
 {
 	local t_name=$1
-	test -x ${t_name}.test || {
+	test -x ${t_name}.bin || {
 		echo "[FAIL] ${t_name} not found"
 		return 1
 	}
 	if $TEST_VALGRIND
 	then
-		valgrind $VG_ARGS --log-file=./${t_name}.vgout ./${t_name}.test
+		valgrind $VG_ARGS --log-file=./${t_name}.vgout ./${t_name}.bin
 	else
-		./${t_name}.test
+		./${t_name}.bin
 	fi
 	local t_status=$?
 	test $t_status -eq 0 || {
