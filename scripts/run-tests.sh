@@ -1,7 +1,8 @@
 #!/bin/sh
 
 TEST_VALGRIND=false
-VG_ARGS='--quiet --error-exitcode=128 --leak-check=full --show-leak-kinds=all'
+VG_ARGS="--quiet --error-exitcode=128 --leak-check=full --show-leak-kinds=all"
+VG_ARGS="$VG_ARGS --track-origins=yes"
 
 t_compile()
 {
@@ -69,7 +70,10 @@ then
 		echo "[ERROR] valgrind command not found"
 		exit 1
 	}
+	echo "[INFO] TEST_VALGRIND='$TEST_VALGRIND'"
 fi
+
+echo "[INFO] CC='$CC' CFLAGS='$CFLAGS'"
 
 t_main
 exit 0
