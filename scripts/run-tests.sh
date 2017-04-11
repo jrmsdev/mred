@@ -34,7 +34,7 @@ t_run()
 		echo "[FAIL] ${t_name} (${t_status})"
 		return 1
 	}
-	echo "[OK] ${t_name}"
+	echo "[PASS] ${t_name}"
 	rm -f ./${t_name}.test ./${t_name}.vgout
 	return 0
 }
