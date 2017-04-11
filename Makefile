@@ -1,9 +1,10 @@
 PREFIX ?= /opt/pkg
 
 .PHONY: all
-all: ./build/mred.bin
+all: build
 
-./build/mred.bin:
+.PHONY: build
+build:
 	@mkdir -vp ./build
 	@(cd ./build && CC=$(CC) ../scripts/gen-objsmk.sh >objs.mk)
 	@(cd ./build && $(MAKE) -f ../build.mk build)
@@ -15,7 +16,7 @@ clean:
 .PHONY: install
 install: .do-install
 
-.do-install: ./build/mred.bin
+.do-install: build
 	@mkdir -vp $(DESTDIR)$(PREFIX)/bin
 	@mkdir -vp $(DESTDIR)$(PREFIX)/share/licenses/mred
 	@install -v -m 0555 ./build/mred.bin $(DESTDIR)$(PREFIX)/bin/mred
