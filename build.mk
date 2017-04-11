@@ -13,3 +13,4 @@ mred.bin: $(OBJS)
 clean:
 	@rm -vf mred.bin *.o
 
+include ./objs.mk

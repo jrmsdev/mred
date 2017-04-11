@@ -5,9 +5,8 @@ all: ./build/mred.bin
 
 ./build/mred.bin:
 	@mkdir -vp ./build
-	@cp -f build.mk ./build/Makefile
-	@(cd ./build && CC=$(CC) ../scripts/build-makefile.sh >>Makefile)
-	@$(MAKE) -C build build
+	@(cd ./build && CC=$(CC) ../scripts/build-makefile.sh >objs.mk)
+	@(cd ./build && $(MAKE) -f ../build.mk build)
 
 .PHONY: clean
 clean:
