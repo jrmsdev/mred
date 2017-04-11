@@ -16,4 +16,5 @@ void
 ab_free (struct abuf *ab)
 {
 	free (ab->b);
+	ab->b = NULL;
 }

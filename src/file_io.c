@@ -3,7 +3,11 @@
 void
 mred_open(char *filename)
 {
-	free (ED.filename);
+	if (ED.filename != NULL)
+	{
+		free (ED.filename);
+		ED.filename = NULL;
+	}
 	ED.filename = strdup (filename);
 	mred_select_syntax_hl ();
 	FILE *fp = fopen (filename, "r");
@@ -20,6 +24,7 @@ mred_open(char *filename)
 		mred_insert_row (ED.numrows, line, linelen);
 	}
 	free (line);
+	line = NULL;
 	fclose (fp);
 	ED.dirty = 0;
 }
@@ -71,6 +76,7 @@ mred_save ()
 			{
 				close (fd);
 				free (buf);
+				buf = NULL;
 				ED.dirty = 0;
 				mred_set_status_message ("%d bytes saved", len);
 				return;
@@ -79,6 +85,7 @@ mred_save ()
 		close (fd);
 	}
 	free (buf);
+	buf = NULL;
 	mred_set_status_message ("Save failed! I/O error: %s",
 			strerror (errno));
 }

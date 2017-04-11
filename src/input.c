@@ -137,6 +137,7 @@ mred_prompt (char *prompt, void (*callback)(char *, int))
 			if (callback)
 				callback (buf, c);
 			free (buf);
+			buf = NULL;
 			return NULL;
 		}
 		else if (c == '\r')

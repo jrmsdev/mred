@@ -73,6 +73,7 @@ mred_find ()
 	if (query)
 	{
 		free (query);
+		query = NULL;
 	}
 	else
 	{

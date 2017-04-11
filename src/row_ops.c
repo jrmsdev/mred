@@ -34,6 +34,7 @@ mred_update_row (edrow *row)
 		if (row->chars[j] == '\t')
 			tabs++;
 	free (row->render);
+	row->render = NULL;
 	row->render = malloc (row->size + (tabs * (MRED_TAB_STOP - 1)) + 1);
 	int idx = 0;
 	for (j = 0; j < row->size; j++)
