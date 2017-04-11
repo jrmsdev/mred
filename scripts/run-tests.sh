@@ -49,7 +49,7 @@ test -z "$CFLAGS" && {
 	echo "[ERROR] CFLAGS env var not set"
 	exit 0
 }
-test `basename $(pwd)` == "tests" || {
+test "`basename $(pwd)`" = "tests" || {
 	echo "[ERROR] should run inside tests dir"
 	exit 0
 }
