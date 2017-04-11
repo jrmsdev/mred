@@ -17,7 +17,7 @@ test -d ../src || {
 
 $CC -E -MM ../src/*.c | while read objline
 do
-    printf '%s\n\t$(CC) $(CFLAGS) -c -fPIC -o $@ $<\n\n' "$objline"
+    printf '%s\n\t$(CC) $(CFLAGS) $(OBJ_CFLAGS) -o $@ $<\n\n' "$objline"
 done
 
 exit 0

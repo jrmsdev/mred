@@ -1,4 +1,5 @@
 CFLAGS += -Wall -Wextra -pedantic -std=c99
+OBJ_CFLAGS := -c -fPIC
 OBJS := main.o terminal.o input.o output.o buffer.o file_io.o row_ops.o \
 	ed_ops.o find.o syntax_hl.o
 
