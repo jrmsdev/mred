@@ -9,8 +9,4 @@ build: mred.bin
 mred.bin: $(OBJS)
 	$(CC) $(CFLAGS) -o mred.bin $(OBJS)
 
-.PHONY: clean
-clean:
-	@rm -vf mred.bin *.o
-
 include ./objs.mk
