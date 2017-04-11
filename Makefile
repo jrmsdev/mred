@@ -16,12 +16,14 @@ clean:
 .PHONY: install
 install: .do-install
 
-.do-install: build
+.do-install: ./build/mred.bin
 	@mkdir -vp $(DESTDIR)$(PREFIX)/bin
 	@mkdir -vp $(DESTDIR)$(PREFIX)/share/licenses/mred
 	@install -v -m 0555 ./build/mred.bin $(DESTDIR)$(PREFIX)/bin/mred
 	@install -v -m 0444 LICENSE $(DESTDIR)$(PREFIX)/share/licenses/mred
 	@touch .do-install
+
+./build/mred.bin: build
 
 .PHONY: uninstall
 uninstall:
