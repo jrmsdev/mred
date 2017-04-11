@@ -5,7 +5,7 @@ all: ./build/mred.bin
 
 ./build/mred.bin:
 	@mkdir -vp ./build
-	@cp -f Makefile.build ./build/Makefile
+	@cp -f build.mk ./build/Makefile
 	@(cd ./build && CC=$(CC) ../scripts/build-makefile.sh >>Makefile)
 	@$(MAKE) -C build build
 
