@@ -18,7 +18,7 @@
 #include <time.h>
 #include <unistd.h>
 
-#define MRED_VERSION "0.1"
+#define MRED_VERSION "0.2"
 #define MRED_TAB_STOP 8
 #define MRED_QUIT_TIMES 2
 
