@@ -7,6 +7,7 @@ before_script:
 .script: &build_script
     - make
     - ./build/mred.bin --version
+    - make check
 
 build_gcc:
     stage: build
