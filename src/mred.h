@@ -100,11 +100,11 @@ struct abuf
 #define ABUF_INIT {NULL, 0}
 
 
-/* main.c */
+/* mred.c */
 
-void die (const char *s);
 void mred_init ();
 void mred_free ();
+void die (const char *s);
 
 
 /* terminal.c */
