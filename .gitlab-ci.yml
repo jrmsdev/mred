@@ -1,10 +1,6 @@
 stages:
    - build
 
-variables:
-   DEBPKGS: ""
-   CHECK_VALGRIND: "false"
-
 before_script:
     - env | sort
     - test -n "$DEBPKGS" && (apt-get update && \
@@ -24,6 +20,8 @@ build_gcc:
     image: gcc
     variables:
         CC: gcc
+        DEBPKGS: ""
+        CHECK_VALGRIND: "false"
     script: *build_and_test
 
 test_valgrind:
