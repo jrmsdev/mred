@@ -3,8 +3,7 @@ stages:
 
 before_script:
     - env | sort
-    - test -n "$DEBPKGS" && (apt-get update && \
-            apt-get install -y --no-install-recommend $DEBPKGS)
+    - test -n "$DEBPKGS" && (apt-get update && apt-get install -y --no-install-recommend $DEBPKGS)
     - $CC --version
 
 .script: &build_and_test
