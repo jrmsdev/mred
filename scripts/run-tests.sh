@@ -1,6 +1,6 @@
 #!/bin/sh
 
-DEBUG=true
+DEBUG=false
 t_FAIL=0
 TEST_VALGRIND=false
 VG_ARGS="--quiet --error-exitcode=128 --leak-check=full --show-leak-kinds=all"
@@ -85,7 +85,7 @@ then
 		echo "[ERROR] valgrind command not found"
 		exit 1
 	}
-	echo "[INFO] valgrind ${VG_ARGS}"
+	$DEBUG && echo "[INFO] valgrind ${VG_ARGS}"
 fi
 
 $DEBUG && echo "[INFO] TEST_SUITE='${TEST_SUITE}'"
@@ -94,7 +94,9 @@ t_main
 
 if test 0 -lt $t_FAIL
 then
-	echo "[ERROR] $t_FAIL test(s) failed!"
+	echo ""
+	echo "       $t_FAIL test(s) failed!"
+	echo ""
 	exit 2
 fi
 exit 0
