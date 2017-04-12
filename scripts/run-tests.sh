@@ -1,7 +1,10 @@
 #!/bin/sh
 
 DEBUG=false
+t_COMPILE=0
+t_RUN=0
 t_FAIL=0
+t_TOTAL=0
 TEST_VALGRIND=false
 VG_ARGS="--quiet --error-exitcode=128 --leak-check=full --show-leak-kinds=all"
 VG_ARGS="$VG_ARGS --track-origins=yes --errors-for-leak-kinds=all"
@@ -11,8 +14,16 @@ t_compile()
 {
 	local t_name=$1
 	$MAKE ${t_name}.bin >/dev/null
-	test $? -eq 0 || {
+	mk_stat=$?
+	t_COMPILE=`expr 1 + $t_COMPILE`
+	test 0 -eq $mk_stat || {
 		echo "[FAIL] compile ${t_name}"
+		t_FAIL=`expr 1 + $t_FAIL`
+		return 1
+	}
+	test -x ${t_name}.bin || {
+		echo "[FAIL] ${t_name} not found or executable"
+		t_FAIL=`expr 1 + $t_FAIL`
 		return 1
 	}
 	return 0
@@ -22,11 +33,6 @@ t_compile()
 t_run()
 {
 	local t_name=$1
-	test -x ${t_name}.bin || {
-		echo "[FAIL] ${t_name} not found"
-		t_FAIL=`expr 1 + $t_FAIL`
-		return 1
-	}
 	if $TEST_VALGRIND
 	then
 		valgrind $VG_ARGS --log-file=./${t_name}.vgout ./${t_name}.bin
@@ -34,6 +40,7 @@ t_run()
 		./${t_name}.bin
 	fi
 	local t_status=$?
+	t_RUN=`expr 1 + $t_RUN`
 	test $t_status -eq 0 || {
 		echo "[FAIL] ${t_name} (${t_status})"
 		t_FAIL=`expr 1 + $t_FAIL`
@@ -59,6 +66,7 @@ t_main()
 	fi
 	for t in $tests_run
 	do
+		t_TOTAL=`expr 1 + $t_TOTAL`
 		local t_name=`basename $t .c`
 		t_compile $t_name && t_run $t_name
 	done
@@ -90,13 +98,21 @@ fi
 
 $DEBUG && echo "[INFO] TEST_SUITE='${TEST_SUITE}'"
 
+echo ""
+echo "mred tests version $(grep -F MRED_VERSION ../src/mred.h | cut -d ' ' -f 3)"
+echo ""
+
 t_main
+
+echo ""
+echo "       $t_TOTAL test(s) total"
+echo "       $t_COMPILE test(s) compiled"
+echo "       $t_RUN test(s) ran"
+echo "       $t_FAIL test(s) failed"
+echo ""
 
 if test 0 -lt $t_FAIL
 then
-	echo ""
-	echo "       $t_FAIL test(s) failed!"
-	echo ""
 	exit 2
 fi
 exit 0
