@@ -1,4 +1,5 @@
 PREFIX ?= /opt/pkg
+TEST_CFLAGS := -D__ALLOW_NOTTY -O0 -ggdb
 
 
 .PHONY: all
@@ -12,10 +13,18 @@ build:
 	@(cd ./build && $(MAKE) -f ../build.mk build)
 
 
+.PHONY: build.test
+build.test:
+	@mkdir -vp ./build.test
+	@(cd ./build.test && CC=$(CC) ../scripts/gen-objsmk.sh >objs.mk)
+	@(cd ./build.test && \
+		$(MAKE) -f ../build.mk build MRED_CFLAGS='$(TEST_CFLAGS)')
+
+
 .PHONY: clean
 clean:
 	@rm -vrf .do-install ./build ./build.test ./tests/*.bin ./tests/*.vgout*
-	@$(MAKE) -C t clean
+	@rm -vrf t/t????_*/stdout.*
 
 
 .PHONY: install
@@ -40,10 +49,12 @@ uninstall:
 
 
 .PHONY: check
-check:
-	@(cd ./tests && MAKE=$(MAKE) ../scripts/run-tests.sh)
+check: build.test
+	#@(cd ./tests && MAKE=$(MAKE) ../scripts/run-tests.sh)
+	@(cd ./t && ./run.sh)
 
 
 .PHONY: check-valgrind
-check-valgrind:
-	@(cd ./tests && MAKE=$(MAKE) ../scripts/run-tests.sh --valgrind)
+check-valgrind: build.test
+	#@(cd ./tests && MAKE=$(MAKE) ../scripts/run-tests.sh --valgrind)
+	@(cd ./t && ./run.sh --valgrind)

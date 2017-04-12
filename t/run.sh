@@ -97,6 +97,7 @@ t_run()
 
 t_main()
 {
+	local main_ret=0
 	for t_stdin in t????_*/stdin
 	do
 		local t_name=`dirname $t_stdin`
@@ -108,9 +109,10 @@ t_main()
 			t_pass $t_name
 		else
 			t_FAIL=`expr 1 + $t_FAIL`
+			main_ret=1
 		fi
 	done
-	return 0
+	return $main_ret
 }
 
 test -x $MRED_BIN || {

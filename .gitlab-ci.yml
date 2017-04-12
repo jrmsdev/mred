@@ -10,12 +10,10 @@ before_script:
 
 .script: &build_and_test
     - $MAKE
-    - $MAKE -C t build >/dev/null
+    - $MAKE build.test >/dev/null
     - ./build/mred.bin --version
     - $MAKE check
-    - ###test "true" = "$CHECK_VALGRIND" && $MAKE check-valgrind
-    - $MAKE -C t check
-    - test "true" = "$CHECK_VALGRIND" && $MAKE -C t check-valgrind
+    - test "true" = "$CHECK_VALGRIND" && $MAKE check-valgrind
 
 gcc:
     stage: build
