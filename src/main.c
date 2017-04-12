@@ -10,12 +10,6 @@ main (int argc, char *argv[]) {
 	ED.stdout = STDOUT_FILENO;
 	ED.stdin = STDIN_FILENO;
 
-	if (!MRED_ALLOW_NOTTY)
-	{
-		if (!isatty (ED.stdin) || !isatty(ED.stdout))
-			die ("ERR: not running on a tty?");
-	}
-
 	if (argc == 2 && strncmp (argv[1], "--version", 9) == 0)
 	{
 		write (ED.stdout, "mred v", 6);
@@ -23,6 +17,13 @@ main (int argc, char *argv[]) {
 		write (ED.stdout, "\r\n", 2);
 		exit (0);
 	}
+
+	if (!MRED_ALLOW_NOTTY)
+	{
+		if (!isatty (ED.stdin) || !isatty(ED.stdout))
+			die ("ERR: not running on a tty?");
+	}
+
 	mred_init ();
 	if (argc == 2)
 		mred_open (argv[1]);
