@@ -3,6 +3,7 @@
 void
 mred_init ()
 {
+	enable_raw_mode ();
 	ED.cx = 0;
 	ED.cy = 0;
 	ED.rx = 0;

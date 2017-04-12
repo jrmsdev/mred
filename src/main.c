@@ -14,7 +14,6 @@ main (int argc, char *argv[]) {
 		write (STDOUT_FILENO, "\r\n", 2);
 		exit (0);
 	}
-	enable_raw_mode ();
 	mred_init ();
 	if (argc == 2)
 		mred_open (argv[1]);
