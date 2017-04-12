@@ -31,6 +31,6 @@ test_valgrind:
     image: debian:stable
     variables:
         CC: clang
-        DEPKGS: clang valgrind
+        DEBPKGS: clang valgrind
         CHECK_VALGRIND: "true"
     script: *build_and_test
