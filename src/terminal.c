@@ -5,22 +5,49 @@
 void
 enable_raw_mode ()
 {
-	if (tcgetattr (ED.stdin, &ED.orig_termios) == -1)
-		die ("ERR: tcgetattr");
-	atexit (disable_raw_mode);
+	if (isatty (ED.stdin) && isatty (ED.stdout))
+	{
+		if (tcgetattr (ED.stdin, &ED.orig_termios) == -1)
+			die ("ERR: tcgetattr");
+		atexit (disable_raw_mode);
 
-	struct termios raw = ED.orig_termios;
-	tcgetattr (ED.stdin, &raw);
+		struct termios raw = ED.orig_termios;
+		tcgetattr (ED.stdin, &raw);
 
-	raw.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
-	raw.c_oflag &= ~(OPOST);
-	raw.c_cflag |= (CS8);
-	raw.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
+		raw.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
+		raw.c_oflag &= ~(OPOST);
+		raw.c_cflag |= (CS8);
+		raw.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
 
-	raw.c_cc[VMIN] = 0;
-	raw.c_cc[VTIME] = 1;
+		raw.c_cc[VMIN] = 0;
+		raw.c_cc[VTIME] = 1;
 
-	tcsetattr (ED.stdin, TCSAFLUSH, &raw);
+		tcsetattr (ED.stdin, TCSAFLUSH, &raw);
+		if (get_window_size (&ED.screenrows, &ED.screencols) == -1)
+			die ("ERR: get window size");
+	}
+	else
+	{
+		ED.screenrows = 24;
+		ED.screencols = 80;
+		if (MRED_ALLOW_NOTTY)
+		{
+			char buf[16];
+			memset (&buf, '\0', 16);
+
+			if (read (ED.stdin, &buf, 10) != 10)
+				die ("ERR: stdin invalid read size");
+
+			if (strncmp ("MRED:STDIN", buf, 10) != 0)
+				die ("ERR: invalid stdin");
+
+			memset (&buf, '\0', 16);
+		}
+		else
+		{
+			die ("not running from a tty?");
+		}
+	}
 }
 
 
