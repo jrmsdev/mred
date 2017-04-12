@@ -3,14 +3,16 @@ stages:
 
 before_script:
     - env | sort
+    - echo "[INFO] DEBPKGS='$DEBPKGS'"
     - test -n "$DEBPKGS" && (apt-get update && apt-get install -y --no-install-recommends $DEBPKGS)
+    - echo "[INFO] CC=$CC MAKE=$MAKE CHECK_VALGRIND=$CHECK_VALGRIND"
     - $CC --version
 
 .script: &build_and_test
-    - make
+    - $MAKE
     - ./build/mred.bin --version
-    - make check
-    - test "true" = "$CHECK_VALGRIND" && make check-valgrind
+    - $MAKE check
+    - test "true" = "$CHECK_VALGRIND" && $MAKE check-valgrind
 
 build_gcc:
     stage: build
@@ -19,17 +21,19 @@ build_gcc:
     image: gcc
     variables:
         CC: gcc
+        MAKE: make
         DEBPKGS: ""
         CHECK_VALGRIND: "false"
     script: *build_and_test
 
-test_valgrind:
+build_clang:
     stage: build
     only:
         - next
     image: debian:stable
     variables:
         CC: clang
-        DEBPKGS: clang valgrind
+        MAKE: bmake
+        DEBPKGS: bmake clang valgrind
         CHECK_VALGRIND: "true"
     script: *build_and_test
