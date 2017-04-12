@@ -44,7 +44,7 @@ t_run()
 		return 1
 	}
 	rm -f ./${t_name}.vgout
-	echo "[PASS] ${t_name}"
+	echo "[ OK ] ${t_name}"
 	return 0
 }
 
