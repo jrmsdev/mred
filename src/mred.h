@@ -23,7 +23,11 @@
 /* configurable data (?) */
 #define MRED_TAB_STOP 8
 #define MRED_QUIT_TIMES 2
-#define MRED_ALLOW_NOTTY 0
+#ifdef __ALLOW_NOTTY
+#  define MRED_ALLOW_NOTTY 1
+#else
+#  define MRED_ALLOW_NOTTY 0
+#endif
 
 
 /* data */
