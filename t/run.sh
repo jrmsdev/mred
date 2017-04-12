@@ -21,7 +21,7 @@ t_fail()
 
 t_info()
 {
-	echo "[INFO] $@"
+	echo "       $@"
 }
 
 t_pass()
@@ -82,17 +82,17 @@ t_run()
 		$t_cmd <$t_stdin >$t_stdout
 		cmd_ret=$?
 	fi
-	if test 0 -ne $cmd_ret
-	then
-		t_error $t_name "cmd run error: $cmd_ret"
-	fi
 	t_check $t_name $t_stdout
 	local check_ret=$?
 	if test 0 -eq $check_ret
 	then
 		rm -f $t_stdout ${t_stdout}.vgout
 	fi
-	return $t_ret
+	if test 0 -ne $cmd_ret
+	then
+		t_fail $t_name "cmd run error: $cmd_ret"
+	fi
+	return $check_ret
 }
 
 t_main()
