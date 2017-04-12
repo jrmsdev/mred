@@ -47,6 +47,8 @@ typedef struct {
 
 struct mred_config
 {
+	int stdin;
+	int stdout;
 	struct termios orig_termios;
 	int screenrows;
 	int screencols;

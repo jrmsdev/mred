@@ -7,11 +7,13 @@
 
 int
 main (int argc, char *argv[]) {
+	ED.stdout = STDOUT_FILENO;
+	ED.stdin = STDIN_FILENO;
 	if (argc == 2 && strncmp (argv[1], "--version", 9) == 0)
 	{
-		write (STDOUT_FILENO, "mred v", 6);
-		write (STDOUT_FILENO, MRED_VERSION, strlen (MRED_VERSION));
-		write (STDOUT_FILENO, "\r\n", 2);
+		write (ED.stdout, "mred v", 6);
+		write (ED.stdout, MRED_VERSION, strlen (MRED_VERSION));
+		write (ED.stdout, "\r\n", 2);
 		exit (0);
 	}
 	mred_init ();

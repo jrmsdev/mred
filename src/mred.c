@@ -60,8 +60,8 @@ mred_free ()
 void
 die (const char *s)
 {
-	write (STDOUT_FILENO, "\x1b[2J", 4);
-	write (STDOUT_FILENO, "\x1b[H", 3);
+	write (ED.stdout, "\x1b[2J", 4);
+	write (ED.stdout, "\x1b[H", 3);
 	perror (s);
 	exit (1);
 }

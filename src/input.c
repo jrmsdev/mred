@@ -16,8 +16,8 @@ void mred_process_keypress ()
 				quit_times--;
 				return;
 			}
-			write (STDOUT_FILENO, "\x1b[2J", 4);
-			write (STDOUT_FILENO, "\x1b[H", 3);
+			write (ED.stdout, "\x1b[2J", 4);
+			write (ED.stdout, "\x1b[H", 3);
 			exit (0);
 			break;
 		case CTRL_KEY ('s'):

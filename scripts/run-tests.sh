@@ -86,6 +86,8 @@ test "`basename $(pwd)`" = "tests" || {
 	exit 1
 }
 
+$DEBUG && echo "[INFO] TEST_SUITE='${TEST_SUITE}'"
+
 if test "$1" = "--valgrind"
 then
 	TEST_VALGRIND=true
@@ -96,10 +98,8 @@ then
 	$DEBUG && echo "[INFO] valgrind ${VG_ARGS}"
 fi
 
-$DEBUG && echo "[INFO] TEST_SUITE='${TEST_SUITE}'"
-
 echo ""
-echo "mred tests version $(grep -F MRED_VERSION ../src/mred.h | cut -d ' ' -f 3)"
+echo "mred tests version $(grep -F MRED_VERSION ../src/mred.h | cut -d ' ' -f 3) - $(date)"
 echo ""
 t_START=`date '+%s'`
 
@@ -111,7 +111,7 @@ echo "       $t_TOTAL test(s) total"
 echo "       $t_COMPILE test(s) compiled"
 echo "       $t_RUN test(s) ran"
 echo "       $t_FAIL test(s) failed"
-echo "       in $(expr $t_END - $t_START) second(s)"
+echo "       in $(expr $t_END - $t_START) second(s) - $(date)"
 echo ""
 
 if test 0 -lt $t_FAIL

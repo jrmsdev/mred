@@ -5,12 +5,12 @@
 void
 enable_raw_mode ()
 {
-	if (tcgetattr (STDIN_FILENO, &ED.orig_termios) == -1)
+	if (tcgetattr (ED.stdin, &ED.orig_termios) == -1)
 		die ("ERR: tcgetattr");
 	atexit (disable_raw_mode);
 
 	struct termios raw = ED.orig_termios;
-	tcgetattr (STDIN_FILENO, &raw);
+	tcgetattr (ED.stdin, &raw);
 
 	raw.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
 	raw.c_oflag &= ~(OPOST);
@@ -20,14 +20,14 @@ enable_raw_mode ()
 	raw.c_cc[VMIN] = 0;
 	raw.c_cc[VTIME] = 1;
 
-	tcsetattr (STDIN_FILENO, TCSAFLUSH, &raw);
+	tcsetattr (ED.stdin, TCSAFLUSH, &raw);
 }
 
 
 void
 disable_raw_mode ()
 {
-	if (tcsetattr (STDIN_FILENO, TCSAFLUSH, &ED.orig_termios) == -1)
+	if (tcsetattr (ED.stdin, TCSAFLUSH, &ED.orig_termios) == -1)
 		die ("ERR: tcsetattr");
 }
 
@@ -36,7 +36,7 @@ int mred_read_key ()
 {
 	int nread;
 	char c;
-	while ((nread = read (STDIN_FILENO, &c, 1)) != 1)
+	while ((nread = read (ED.stdin, &c, 1)) != 1)
 	{
 		if (nread == -1 && errno != EAGAIN)
 			die ("ERR: read key");
@@ -44,15 +44,15 @@ int mred_read_key ()
 	if (c == '\x1b')
 	{
 		char seq[3];
-		if (read (STDIN_FILENO, &seq[0], 1) != 1)
+		if (read (ED.stdin, &seq[0], 1) != 1)
 			return ('\x1b');
-		if (read (STDIN_FILENO, &seq[1], 1) != 1)
+		if (read (ED.stdin, &seq[1], 1) != 1)
 			return ('\x1b');
 		if (seq[0] == '[')
 		{
 			if (seq[1] >= '0' && seq[1] <= '9')
 			{
-				if (read (STDIN_FILENO, &seq[2], 1) != 1)
+				if (read (ED.stdin, &seq[2], 1) != 1)
 					return ('\x1b');
 				if (seq[2] == '~')
 				{
@@ -94,9 +94,9 @@ int
 get_window_size (int *rows, int *cols)
 {
 	struct winsize ws;
-	if (ioctl (STDOUT_FILENO, TIOCGWINSZ, &ws) == -1 || ws.ws_col == 0)
+	if (ioctl (ED.stdout, TIOCGWINSZ, &ws) == -1 || ws.ws_col == 0)
 	{
-		if (write (STDOUT_FILENO, "\x1b[999C\x1b[999B", 12) != 12)
+		if (write (ED.stdout, "\x1b[999C\x1b[999B", 12) != 12)
 			return (-1);
 		return (get_cursor_position (rows, cols));
 	}
@@ -114,11 +114,11 @@ get_cursor_position (int *rows, int *cols)
 {
 	char buf[32];
 	unsigned int i = 0;
-	if (write (STDOUT_FILENO, "\x1b[6n", 4) != 4)
+	if (write (ED.stdout, "\x1b[6n", 4) != 4)
 		return (-1);
 	while (1 < sizeof (buf) -1)
 	{
-		if (read (STDIN_FILENO, &buf[i], 1) != 1)
+		if (read (ED.stdin, &buf[i], 1) != 1)
 			break;
 		if (buf[i] == 'R')
 			break;

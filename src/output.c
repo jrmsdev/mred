@@ -107,7 +107,7 @@ mred_refresh_screen ()
 	ab_append (&ab, buf, strlen (buf));
 
 	ab_append (&ab, "\x1b[?25h", 6); /* show cursor */
-	write (STDOUT_FILENO, ab.b, ab.len);
+	write (ED.stdout, ab.b, ab.len);
 	ab_free (&ab);
 }
 
