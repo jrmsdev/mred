@@ -1,3 +1,5 @@
+TEST_CFLAGS := -D__ALLOW_NOTTY -O0 -ggdb
+
 .PHONY: check
 check: build
 	@./run.sh
@@ -11,7 +13,7 @@ build:
 	@mkdir -vp ../build.test
 	@(cd ../build.test && CC=$(CC) ../scripts/gen-objsmk.sh >objs.mk)
 	@(cd ../build.test && \
-		$(MAKE) -f ../build.mk build MRED_DEBUG=-D__ALLOW_NOTTY)
+		$(MAKE) -f ../build.mk build MRED_CFLAGS='$(TEST_CFLAGS)')
 
 .PHONY: clean
 clean:

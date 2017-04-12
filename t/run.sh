@@ -68,6 +68,7 @@ t_run()
 	local t_stdin=$2
 	local t_stdout=${t_name}/stdout.$$
 	local t_cmd="$MRED_BIN"
+	local cmd_ret=$?
 	if test -e ${t_name}/openfile
 	then
 		t_cmd="$t_cmd ${t_name}/openfile"
@@ -76,17 +77,18 @@ t_run()
 	then
 		valgrind $VG_ARGS --log-file=${t_stdout}.vgout \
 				$t_cmd <$t_stdin >$t_stdout
+		cmd_ret=$?
 	else
 		$t_cmd <$t_stdin >$t_stdout
+		cmd_ret=$?
 	fi
-	local cmd_ret=$?
 	if test 0 -ne $cmd_ret
 	then
 		t_error $t_name "cmd run error: $cmd_ret"
 	fi
 	t_check $t_name $t_stdout
-	local t_ret=$?
-	if test 0 -eq $t_ret
+	local check_ret=$?
+	if test 0 -eq $check_ret
 	then
 		rm -f $t_stdout ${t_stdout}.vgout
 	fi
