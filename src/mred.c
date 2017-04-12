@@ -9,10 +9,22 @@ mred_init ()
 	}
 	else
 	{
-		if (!MRED_ALLOW_NOTTY)
+		if (MRED_ALLOW_NOTTY)
+		{
+			char buf[16];
+			memset (&buf, '\0', 16);
+
+			if (read (ED.stdin, &buf, 10) != 10)
+				die ("ERR: stdin invalid read");
+
+			if (strncmp ("MRED:STDIN", buf, 10) != 0)
+				die ("ERR: invalid stdin");
+
+			memset (&buf, '\0', 16);
+		}
+		else
 		{
 			die ("not running from a tty?");
-			/* TODO: else read stdin for a valid file? */
 		}
 	}
 	ED.cx = 0;
