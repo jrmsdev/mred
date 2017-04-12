@@ -3,7 +3,8 @@ stages:
 
 
 before_script:
-    - cc --version
+    - test -n "$DEBPKGS" && (apt-get update && apt-get install -y --no-install-recommend $DEBPKGS)
+    - $CC --version
 
 
 .script: &build_and_test
@@ -13,7 +14,6 @@ before_script:
 
 
 .script: &apt_install
-    - apt-get update && apt-get install -y --no-install-recommend $DEBPKGS
 
 
 build_gcc:
@@ -21,6 +21,9 @@ build_gcc:
     only:
         - next
     image: gcc
+    variables:
+        CC: gcc
+        DEPKGS:
     script: *build_and_test
 
 
@@ -32,6 +35,5 @@ test_valgrind:
     variables:
         CC: clang
         DEPKGS: clang valgrind
-    before_script: *apt_install
     script: *build_and_test
         - make check-valgrind
