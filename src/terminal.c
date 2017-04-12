@@ -35,10 +35,10 @@ enable_raw_mode ()
 			char buf[16];
 			memset (&buf, '\0', 16);
 
-			if (read (ED.stdin, &buf, 10) != 10)
+			if (read (ED.stdin, &buf, 11) != 11)
 				die ("ERR: stdin invalid read size");
 
-			if (strncmp ("MRED:STDIN", buf, 10) != 0)
+			if (strncmp ("MRED:STDIN\n", buf, 11) != 0)
 				die ("ERR: invalid stdin");
 
 			memset (&buf, '\0', 16);
