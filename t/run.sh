@@ -68,7 +68,7 @@ t_run()
 	local t_stdin=$2
 	local t_stdout=${t_name}/stdout.$$
 	local t_cmd="$MRED_BIN"
-	if test -s ${t_name}/openfile
+	if test -e ${t_name}/openfile
 	then
 		t_cmd="$t_cmd ${t_name}/openfile"
 	fi
