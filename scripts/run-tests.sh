@@ -1,5 +1,6 @@
 #!/bin/sh
 
+t_FAIL=0
 TEST_VALGRIND=false
 VG_ARGS="--quiet --error-exitcode=128 --leak-check=full --show-leak-kinds=all"
 VG_ARGS="$VG_ARGS --track-origins=yes --errors-for-leak-kinds=all"
@@ -22,6 +23,7 @@ t_run()
 	local t_name=$1
 	test -x ${t_name}.bin || {
 		echo "[FAIL] ${t_name} not found"
+		t_FAIL=`expr 1 + $t_FAIL`
 		return 1
 	}
 	if $TEST_VALGRIND
@@ -33,10 +35,12 @@ t_run()
 	local t_status=$?
 	test $t_status -eq 0 || {
 		echo "[FAIL] ${t_name} (${t_status})"
+		t_FAIL=`expr 1 + $t_FAIL`
 		return 1
 	}
 	test -s ./${t_name}.vgout && {
 		echo "[FAIL] ${t_name} (${t_status}) vgout not empty"
+		t_FAIL=`expr 1 + $t_FAIL`
 		return 1
 	}
 	rm -f ./${t_name}.vgout
@@ -79,4 +83,10 @@ then
 fi
 
 t_main
+
+if test 0 -lt $t_FAIL
+then
+	echo "[ERROR] $t_FAIL test(s) failed!"
+	exit 2
+fi
 exit 0
