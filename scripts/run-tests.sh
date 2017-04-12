@@ -2,7 +2,7 @@
 
 TEST_VALGRIND=false
 VG_ARGS="--quiet --error-exitcode=128 --leak-check=full --show-leak-kinds=all"
-VG_ARGS="$VG_ARGS --track-origins=yes"
+VG_ARGS="$VG_ARGS --track-origins=yes --errors-for-leak-kinds=all"
 
 t_compile()
 {
