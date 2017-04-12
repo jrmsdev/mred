@@ -39,7 +39,7 @@ t_run()
 		return 1
 	}
 	test -s ./${t_name}.vgout && {
-		echo "[FAIL] ${t_name} (${t_status}) vgout not empty"
+		echo "[FAIL] ${t_name}.vgout not empty (${t_status})"
 		t_FAIL=`expr 1 + $t_FAIL`
 		return 1
 	}
