@@ -5,30 +5,39 @@
 void
 enable_raw_mode ()
 {
-	if (tcgetattr (ED.stdin, &ED.orig_termios) == -1)
-		die ("ERR: tcgetattr");
-	atexit (disable_raw_mode);
+	if (isatty (ED.stdin))
+	{
+		if (tcgetattr (ED.stdin, &ED.orig_termios) == -1)
+			die ("ERR: tcgetattr");
+		atexit (disable_raw_mode);
+	}
 
-	struct termios raw = ED.orig_termios;
-	tcgetattr (ED.stdin, &raw);
+	if (isatty (ED.stdin))
+	{
+		struct termios raw = ED.orig_termios;
+		tcgetattr (ED.stdin, &raw);
 
-	raw.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
-	raw.c_oflag &= ~(OPOST);
-	raw.c_cflag |= (CS8);
-	raw.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
+		raw.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
+		raw.c_oflag &= ~(OPOST);
+		raw.c_cflag |= (CS8);
+		raw.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
 
-	raw.c_cc[VMIN] = 0;
-	raw.c_cc[VTIME] = 1;
+		raw.c_cc[VMIN] = 0;
+		raw.c_cc[VTIME] = 1;
 
-	tcsetattr (ED.stdin, TCSAFLUSH, &raw);
+		tcsetattr (ED.stdin, TCSAFLUSH, &raw);
+	}
 }
 
 
 void
 disable_raw_mode ()
 {
-	if (tcsetattr (ED.stdin, TCSAFLUSH, &ED.orig_termios) == -1)
-		die ("ERR: tcsetattr");
+	if (isatty (ED.stdin))
+	{
+		if (tcsetattr (ED.stdin, TCSAFLUSH, &ED.orig_termios) == -1)
+			die ("ERR: tcsetattr");
+	}
 }
 
 
