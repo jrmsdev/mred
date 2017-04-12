@@ -1,6 +1,6 @@
 #!/bin/sh
 
-MRED_BIN="../build/mred.bin"
+MRED_BIN="../build.test/mred.bin"
 DIGEST="sha1"
 
 t_error()

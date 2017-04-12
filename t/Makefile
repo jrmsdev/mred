@@ -1,6 +1,6 @@
 .PHONY: check
 check:
-	@$(MAKE) -C .. clean build MRED_DEBUG=-D__ALLOW_NOTTY >/dev/null
+	@$(MAKE) -C .. build.test
 	@./run.sh
 
 .PHONY: clean

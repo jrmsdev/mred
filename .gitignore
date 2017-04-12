@@ -1,5 +1,6 @@
 .do-install
 *.swp
 build/*
+build.test/*
 tests/*.bin
 tests/*.vgout*
