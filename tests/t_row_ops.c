@@ -20,7 +20,6 @@ t_insert_row ()
 int
 main (void)
 {
-	mred_init ();
 	t_insert_row ();
 	return (0);
 }
