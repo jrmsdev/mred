@@ -126,8 +126,7 @@ then
 	}
 fi
 
-mred_version=$(grep -F MRED_VERSION ../src/mred.h | cut -d ' ' -f 3)
-echo "test mred version ${mred_version}"
+echo "test $($MRED_BIN --version)"
 t_START=`date '+%s'`
 
 t_main

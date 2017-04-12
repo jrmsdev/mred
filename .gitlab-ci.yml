@@ -13,7 +13,7 @@ before_script:
     - $MAKE -C t build >/dev/null
     - ./build/mred.bin --version
     - $MAKE check
-    - test "true" = "$CHECK_VALGRIND" && $MAKE check-valgrind
+    - ###test "true" = "$CHECK_VALGRIND" && $MAKE check-valgrind
     - $MAKE -C t check
     - test "true" = "$CHECK_VALGRIND" && $MAKE -C t check-valgrind
 
