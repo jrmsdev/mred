@@ -6,8 +6,7 @@ variables:
    CHECK_VALGRIND: false
 
 before_script:
-    - test -n "$DEBPKGS" && (apt-get update && \
-            apt-get install -y --no-install-recommend $DEBPKGS)
+    - test -n "$DEBPKGS" && (apt-get update && apt-get install -y --no-install-recommend $DEBPKGS)
     - $CC --version
 
 .script: &build_and_test
