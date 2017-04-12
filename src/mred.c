@@ -6,9 +6,13 @@ mred_init ()
 	if (isatty (ED.stdin) && isatty (ED.stdout))
 	{
 		enable_raw_mode ();
+		if (get_window_size (&ED.screenrows, &ED.screencols) == -1)
+			die ("ERR: get window size");
 	}
 	else
 	{
+		ED.screenrows = 24;
+		ED.screencols = 80;
 		if (MRED_ALLOW_NOTTY)
 		{
 			char buf[16];
@@ -39,9 +43,7 @@ mred_init ()
 	ED.statusmsg_time = 0;
 	ED.dirty = 0;
 	ED.syntax = NULL;
-	if (get_window_size (&ED.screenrows, &ED.screencols) == -1)
-		die ("ERR: get window size");
-	ED.screenrows -= 2;
+	ED.screenrows -= 2; /* make space for status and message bars */
 	atexit (mred_free);
 }
 
