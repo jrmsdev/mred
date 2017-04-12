@@ -10,11 +10,13 @@ before_script:
 
 .script: &build_and_test
     - $MAKE
+    - $MAKE -C t build >/dev/null
     - ./build/mred.bin --version
     - $MAKE check
+    - $MAKE -C t check
     - test "true" = "$CHECK_VALGRIND" && $MAKE check-valgrind
 
-build_gcc:
+gcc:
     stage: build
     only:
         - next
@@ -26,7 +28,7 @@ build_gcc:
         CHECK_VALGRIND: "false"
     script: *build_and_test
 
-build_clang:
+clang_valgrind:
     stage: build
     only:
         - next

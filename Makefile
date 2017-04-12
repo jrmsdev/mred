@@ -12,17 +12,9 @@ build:
 	@(cd ./build && $(MAKE) -f ../build.mk build)
 
 
-.PHONY: build.test
-build.test:
-	@mkdir -vp ./build.test
-	@(cd ./build.test && CC=$(CC) ../scripts/gen-objsmk.sh >objs.mk)
-	@(cd ./build.test && \
-		$(MAKE) -f ../build.mk build MRED_DEBUG=-D__ALLOW_NOTTY)
-
-
 .PHONY: clean
 clean:
-	@rm -vrf .do-install ./build ./build.test ./tests/*.bin ./tests/*.vgout*
+	@rm -vrf .do-install ./build ./tests/*.bin ./tests/*.vgout*
 	@$(MAKE) -C t clean
 
 
@@ -50,7 +42,6 @@ uninstall:
 .PHONY: check
 check:
 	@(cd ./tests && MAKE=$(MAKE) ../scripts/run-tests.sh)
-	@$(MAKE) -C t check
 
 
 .PHONY: check-valgrind
