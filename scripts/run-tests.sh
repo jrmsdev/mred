@@ -59,7 +59,7 @@ t_run()
 
 t_main()
 {
-	local tests_run=`ls t_*.c`
+	local tests_run="$(ls t_*.c)"
 	if test "x" != "x${TEST_SUITE}"
 	then
 		local tests_run=`echo $TEST_SUITE | cut -d ',' -f '1-'`
