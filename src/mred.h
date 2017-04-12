@@ -19,8 +19,11 @@
 #include <unistd.h>
 
 #define MRED_VERSION "0.2"
+
+/* configurable data (?) */
 #define MRED_TAB_STOP 8
 #define MRED_QUIT_TIMES 2
+#define MRED_ALLOW_NOTTY 0
 
 
 /* data */

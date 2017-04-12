@@ -9,8 +9,12 @@ int
 main (int argc, char *argv[]) {
 	ED.stdout = STDOUT_FILENO;
 	ED.stdin = STDIN_FILENO;
-	if (!isatty (ED.stdin) || !isatty(ED.stdout))
-		die ("ERR: not running on a tty?");
+
+	if (!MRED_ALLOW_NOTTY)
+	{
+		if (!isatty (ED.stdin) || !isatty(ED.stdout))
+			die ("ERR: not running on a tty?");
+	}
 
 	if (argc == 2 && strncmp (argv[1], "--version", 9) == 0)
 	{

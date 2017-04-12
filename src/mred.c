@@ -3,7 +3,18 @@
 void
 mred_init ()
 {
-	enable_raw_mode ();
+	if (isatty (ED.stdin) && isatty (ED.stdout))
+	{
+		enable_raw_mode ();
+	}
+	else
+	{
+		if (!MRED_ALLOW_NOTTY)
+		{
+			die ("not running from a tty?");
+			/* TODO: else read stdin for a valid file? */
+		}
+	}
 	ED.cx = 0;
 	ED.cy = 0;
 	ED.rx = 0;
