@@ -15,6 +15,7 @@ build:
 .PHONY: clean
 clean:
 	@rm -vrf .do-install ./build ./tests/*.bin ./tests/*.vgout*
+	@$(MAKE) -C t clean
 
 
 .PHONY: install
@@ -41,6 +42,7 @@ uninstall:
 .PHONY: check
 check:
 	@(cd ./tests && MAKE=$(MAKE) ../scripts/run-tests.sh)
+	@$(MAKE) -C t check
 
 
 .PHONY: check-valgrind

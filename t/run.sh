@@ -21,7 +21,7 @@ t_info()
 
 t_pass()
 {
-	echo "[PASS] $@"
+	echo "[ OK ] $@"
 }
 
 t_check()
