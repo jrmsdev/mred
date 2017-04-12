@@ -1,20 +1,20 @@
 stages:
    - build
 
+variables:
+   DEBPKGS: ""
+   CHECK_VALGRIND: false
 
 before_script:
-    - test -n "$DEBPKGS" && (apt-get update && apt-get install -y --no-install-recommend $DEBPKGS)
+    - test -n "$DEBPKGS" && (apt-get update && \
+            apt-get install -y --no-install-recommend $DEBPKGS)
     - $CC --version
-
 
 .script: &build_and_test
     - make
     - ./build/mred.bin --version
     - make check
-
-
-.script: &apt_install
-
+    - $CHECK_VALGRIND && make check-valgrind
 
 build_gcc:
     stage: build
@@ -23,9 +23,7 @@ build_gcc:
     image: gcc
     variables:
         CC: gcc
-        DEPKGS:
     script: *build_and_test
-
 
 test_valgrind:
     stage: build
@@ -35,5 +33,5 @@ test_valgrind:
     variables:
         CC: clang
         DEPKGS: clang valgrind
+        CHECK_VALGRIND: true
     script: *build_and_test
-        - make check-valgrind
