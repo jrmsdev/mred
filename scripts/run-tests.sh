@@ -4,6 +4,7 @@ TEST_VALGRIND=false
 VG_ARGS="--quiet --error-exitcode=128 --leak-check=full --show-leak-kinds=all"
 VG_ARGS="$VG_ARGS --track-origins=yes --errors-for-leak-kinds=all"
 
+
 t_compile()
 {
 	local t_name=$1
@@ -34,8 +35,12 @@ t_run()
 		echo "[FAIL] ${t_name} (${t_status})"
 		return 1
 	}
-	echo "[PASS] ${t_name}"
+	test -s ./${t_name}.vgout && {
+		echo "[FAIL] ${t_name} (${t_status}) vgout not empty"
+		return 1
+	}
 	rm -f ./${t_name}.vgout
+	echo "[PASS] ${t_name}"
 	return 0
 }
 
@@ -70,7 +75,7 @@ then
 		echo "[ERROR] valgrind command not found"
 		exit 1
 	}
-	echo "[INFO] TEST_VALGRIND='$TEST_VALGRIND'"
+	echo "[INFO] valgrind ${VG_ARGS}"
 fi
 
 t_main
