@@ -67,12 +67,17 @@ t_run()
 	local t_name=$1
 	local t_stdin=$2
 	local t_stdout=${t_name}/stdout.$$
+	local t_cmd="$MRED_BIN"
+	if test -s ${t_name}/openfile
+	then
+		t_cmd="$t_cmd ${t_name}/openfile"
+	fi
 	if $TEST_VALGRIND
 	then
 		valgrind $VG_ARGS --log-file=${t_stdout}.vgout \
-				$MRED_BIN <$t_stdin >$t_stdout
+				$t_cmd <$t_stdin >$t_stdout
 	else
-		$MRED_BIN <$t_stdin >$t_stdout
+		$t_cmd <$t_stdin >$t_stdout
 	fi
 	local cmd_ret=$?
 	if test 0 -ne $cmd_ret
