@@ -1,17 +1,37 @@
 stages:
    - build
 
+
 before_script:
     - cc --version
 
-.script: &build_script
+
+.script: &build_and_test
     - make
     - ./build/mred.bin --version
     - make check
+
+
+.script: &apt_install
+    - apt-get update && apt-get install -y --no-install-recommend $DEBPKGS
+
 
 build_gcc:
     stage: build
     only:
         - next
     image: gcc
-    script: *build_script
+    script: *build_and_test
+
+
+test_valgrind:
+    stage: build
+    only:
+        - next
+    image: debian:stable
+    variables:
+        CC: clang
+        DEPKGS: clang valgrind
+    before_script: *apt_install
+    script: *build_and_test
+        - make check-valgrind
