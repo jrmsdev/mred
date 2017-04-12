@@ -85,5 +85,13 @@ t_main()
 	return 0
 }
 
-t_main || exit 2
-exit 0
+echo "mred T version $(grep -F MRED_VERSION ../src/mred.h | cut -d ' ' -f 3) - $(date)"
+t_START=`date '+%s'`
+
+t_main
+main_ret=$?
+
+t_END=`date '+%s'`
+echo "       in $(expr $t_END - $t_START) second(s) - $(date)"
+
+exit $main_ret
