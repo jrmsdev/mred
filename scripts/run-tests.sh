@@ -1,5 +1,6 @@
 #!/bin/sh
 
+DEBUG=true
 t_FAIL=0
 TEST_VALGRIND=false
 VG_ARGS="--quiet --error-exitcode=128 --leak-check=full --show-leak-kinds=all"
@@ -51,7 +52,12 @@ t_run()
 
 t_main()
 {
-	for t in t_*.c
+	local tests_run=`ls t_*.c`
+	if test "x" != "x${TEST_SUITE}"
+	then
+		local tests_run=`echo $TEST_SUITE | cut -d ',' -f '1-'`
+	fi
+	for t in $tests_run
 	do
 		local t_name=`basename $t .c`
 		t_compile $t_name && t_run $t_name
@@ -81,6 +87,8 @@ then
 	}
 	echo "[INFO] valgrind ${VG_ARGS}"
 fi
+
+$DEBUG && echo "[INFO] TEST_SUITE='${TEST_SUITE}'"
 
 t_main
 
