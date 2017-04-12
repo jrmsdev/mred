@@ -2,6 +2,9 @@
 check: build
 	@./run.sh
 
+.PHONY: check-valgrind
+check-valgrind: build
+	@./run.sh --valgrind
 
 .PHONY: build
 build:
@@ -13,4 +16,3 @@ build:
 .PHONY: clean
 clean:
 	@rm -vf t????_*/stdout.*
-	@rm -rfv ../build.test

@@ -14,7 +14,7 @@ build:
 
 .PHONY: clean
 clean:
-	@rm -vrf .do-install ./build ./tests/*.bin ./tests/*.vgout*
+	@rm -vrf .do-install ./build ./build.test ./tests/*.bin ./tests/*.vgout*
 	@$(MAKE) -C t clean
 
 
