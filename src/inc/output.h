@@ -1,6 +1,8 @@
 #ifndef MRED_OUTPUT_H
 #define MRED_OUTPUT_H
 
+#include "buffer.h"
+
 void mred_draw_rows (struct abuf *ab);
 void mred_refresh_screen ();
 void mred_scroll ();

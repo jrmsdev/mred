@@ -99,16 +99,6 @@ enum mred_highlight {
 };
 
 
-/* append buffer */
-
-struct abuf
-{
-	char *b;
-	int len;
-};
-#define ABUF_INIT {NULL, 0}
-
-
 /* mred.c */
 
 void mred_init ();
