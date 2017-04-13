@@ -22,7 +22,7 @@
 #include "row_ops.h"
 
 
-struct mred_config
+struct mred_state
 {
 	int stdin;
 	int stdout;
@@ -41,7 +41,7 @@ struct mred_config
 	int dirty;
 	struct mred_syntax *syntax;
 };
-struct mred_config ED;
+struct mred_state ED;
 
 void mred_init ();
 void mred_free ();
