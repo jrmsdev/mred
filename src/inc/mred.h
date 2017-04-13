@@ -156,12 +156,6 @@ void mred_row_append_string (edrow *row, char *s, size_t len);
 int mred_row_rx_to_cx (edrow *row, int rx);
 
 
-/* find.c */
-
-void mred_find_callback (char *query, int key);
-void mred_find ();
-
-
 /* syntax_hl.c */
 
 void mred_update_syntax (edrow *row);
