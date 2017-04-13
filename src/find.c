@@ -51,7 +51,11 @@ mred_find_callback (char *query, int key)
 			ED.cx = mred_row_rx_to_cx (row, match - row->render);
 			ED.rowoff = ED.numrows;
 			saved_hl_line = current;
+
 			saved_hl = malloc (row->rsize);
+			if (saved_hl == NULL)
+				die ("ERR: highlight save malloc");
+
 			memcpy (saved_hl, row->hl, row->rsize);
 			memset (&row->hl[match - row->render],
 					HL_MATCH, strlen(query));

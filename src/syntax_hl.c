@@ -11,7 +11,10 @@ is_separator (int c)
 void
 mred_update_syntax (edrow *row)
 {
-	row->hl = realloc (row->hl, row->rsize);
+	unsigned char *newhl = realloc (row->hl, row->rsize);
+	if (newhl == NULL)
+		die ("ERR: update syntax new hl realloc");
+	row->hl = newhl;
 	memset (row->hl, HL_NORMAL, row->rsize);
 	if (ED.syntax == NULL)
 		return;

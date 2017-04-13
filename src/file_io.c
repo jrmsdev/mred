@@ -40,6 +40,8 @@ mred_rows_to_string (int *buflen)
 	*buflen = totlen;
 
 	char *buf = malloc (totlen);
+	if (buf == NULL)
+		die ("ERR: rows to string buf malloc");
 	char *p = buf;
 	for (j = 0; j < ED.numrows; j++)
 	{

@@ -11,14 +11,14 @@ is_separator (int c)[39m[K
 void[39m[K
 mred_update_syntax (edrow *row)[39m[K
 {[39m[K
-        row->hl = realloc (row->hl, row->rsize);[39m[K
+        unsigned char *newhl = realloc (row->hl, row->rsize);[39m[K
+        if (newhl == NULL)[39m[K
+                die ("ERR: update syntax new hl realloc");[39m[K
+        row->hl = newhl;[39m[K
         memset (row->hl, HL_NORMAL, row->rsize);[39m[K
         if (ED.syntax == NULL)[39m[K
                 return;[39m[K
         char **keywords = ED.syntax->keywords;[39m[K
         char *scs = ED.syntax->singleline_comment_start;[39m[K
-        char *mcs = ED.syntax->multiline_comment_start;[39m[K
-        char *mce = ED.syntax->multiline_comment_end;[39m[K
-        int scs_len = scs ? strlen (scs) : 0;[39m[K
-[7mt0010_syntax_hl/open - 202 lines                                   no ft | 1/202[m
+[7mt0010_syntax_hl/open - 205 lines                                   no ft | 1/205[m
 [KHELP: Ctrl-Q = quit | Ctrl-S = save | Ctrl-F = find[1;1H[?25h[2J[H

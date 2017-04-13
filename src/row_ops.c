@@ -44,12 +44,18 @@ mred_update_row (edrow *row)
 {
 	int tabs = 0;
 	int j;
+
 	for (j = 0; j < row->size; j++)
 		if (row->chars[j] == '\t')
 			tabs++;
+
 	free (row->render);
 	row->render = NULL;
+
 	row->render = malloc (row->size + (tabs * (MRED_TAB_STOP - 1)) + 1);
+	if (row->render == NULL)
+		die ("ERR: row render malloc");
+
 	int idx = 0;
 	for (j = 0; j < row->size; j++)
 	{
@@ -90,7 +96,10 @@ mred_row_insert_char (edrow *row, int at, int c)
 {
 	if (at < 0 || at > row->size)
 		at = row->size;
-	row->chars = realloc (row->chars, row->size + 1);
+	char *newchars = realloc (row->chars, row->size + 1);
+	if (newchars == NULL)
+		die ("ERR: insert row chars realloc");
+	row->chars = newchars;
 	memmove (&row->chars[at + 1], &row->chars[at], row->size - at + 1);
 	row->size++;
 	row->chars[at] = c;
@@ -141,7 +150,10 @@ mred_free_row (edrow *row)
 void
 mred_row_append_string (edrow *row, char *s, size_t len)
 {
-	row->chars = realloc (row->chars, row->size + len + 1);
+	char *newchars = realloc (row->chars, row->size + len + 1);
+	if (newchars == NULL)
+		die ("ERR: row append chars realloc");
+	row->chars = newchars;
 	memcpy (&row->chars[row->size], s, len);
 	row->size += len;
 	row->chars[row->size] = '\0';

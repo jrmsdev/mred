@@ -117,9 +117,13 @@ mred_move_cursor (int key)
 char *
 mred_prompt (char *prompt, void (*callback)(char *, int))
 {
+	size_t buflen = 0;
 	size_t bufsize = 128;
 	char *buf = malloc (bufsize);
-	size_t buflen = 0;
+
+	if (buf == NULL)
+		die ("ERR: prompt buf malloc");
+
 	buf[0] = '\0';
 	while (1)
 	{
@@ -155,7 +159,10 @@ mred_prompt (char *prompt, void (*callback)(char *, int))
 			if (buflen == bufsize -1)
 			{
 				bufsize *= 2;
-				buf = realloc (buf, bufsize);
+				char *newbuf = realloc (buf, bufsize);
+				if (newbuf == NULL)
+					die ("ERR: prompt buf realloc");
+				buf = newbuf;
 			}
 			buf[buflen++] = c;
 			buf[buflen] = '\0';
