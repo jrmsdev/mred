@@ -1,7 +1,7 @@
 #!/bin/sh
 
 MRED_BIN="../build.test/mred.bin"
-DIGEST="sha1"
+DIGEST=${CHECK_DIGEST_CMD:-"sha256"}
 t_RUN=0
 t_FAIL=0
 TEST_VALGRIND=false
