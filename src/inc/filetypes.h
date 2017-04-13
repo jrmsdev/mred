@@ -1,6 +1,8 @@
 #ifndef __MRED_FILETYPES_H
 #define __MRED_FILETYPES_H
 
+#include "syntax_hl.h"
+
 #define HL_DO_NUMBERS (1<<0)
 #define HL_DO_STRINGS (1<<1)
 

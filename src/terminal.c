@@ -1,6 +1,7 @@
 /* terminal management */
 
 #include "inc/mred.h"
+#include "inc/input.h"
 #include "inc/terminal.h"
 
 void

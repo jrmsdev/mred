@@ -1,6 +1,16 @@
 #ifndef MRED_ROW_OPS_H
 #define MRED_ROW_OPS_H
 
+typedef struct {
+	int idx;
+	int size;
+	int rsize;
+	char *chars;
+	char *render;
+	unsigned char *hl;
+	int hl_open_comment;
+} edrow;
+
 void mred_insert_row (int at, char *s, size_t len);
 void mred_update_row (edrow *row);
 int mred_row_cx_to_rx (edrow *row, int cx);

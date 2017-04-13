@@ -18,6 +18,7 @@
 #include <time.h>
 #include <unistd.h>
 
+
 #define MRED_VERSION "0.3"
 
 /* configurable data (?) */
@@ -30,27 +31,10 @@
 #endif
 
 
+#include "row_ops.h"
+
+
 /* data */
-
-struct mred_syntax {
-	char *filetype;
-	char **filematch;
-	char **keywords;
-	char *singleline_comment_start;
-	char *multiline_comment_start;
-	char *multiline_comment_end;
-	int flags;
-};
-
-typedef struct {
-	int idx;
-	int size;
-	int rsize;
-	char *chars;
-	char *render;
-	unsigned char *hl;
-	int hl_open_comment;
-} edrow;
 
 struct mred_config
 {
@@ -72,31 +56,6 @@ struct mred_config
 	struct mred_syntax *syntax;
 };
 struct mred_config ED;
-
-enum mred_key
-{
-        BACKSPACE = 127,
-        ARROW_LEFT = 1000,
-        ARROW_RIGHT,
-        ARROW_UP,
-        ARROW_DOWN,
-        DEL_KEY,
-        HOME_KEY,
-        END_KEY,
-        PAGE_UP,
-        PAGE_DOWN
-};
-
-enum mred_highlight {
-	HL_NORMAL = 0,
-	HL_COMMENT,
-	HL_MLCOMMENT,
-	HL_KEYWORD1,
-	HL_KEYWORD2,
-	HL_STRING,
-	HL_NUMBER,
-	HL_MATCH
-};
 
 
 /* mred.c */
