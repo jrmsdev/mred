@@ -125,16 +125,6 @@ int get_window_size (int *rows, int *cols);
 int get_cursor_position (int *rows, int *cols);
 
 
-/* output.c */
-
-void mred_draw_rows (struct abuf *ab);
-void mred_refresh_screen ();
-void mred_scroll ();
-void mred_draw_status_bar (struct abuf *ab);
-void mred_set_status_message (const char *fmt, ...);
-void mred_draw_message_bar (struct abuf *ab);
-
-
 /* row_ops.c */
 
 void mred_insert_row (int at, char *s, size_t len);

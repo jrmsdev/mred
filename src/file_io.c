@@ -1,6 +1,7 @@
 #include "inc/mred.h"
 #include "inc/file_io.h"
 #include "inc/input.h"
+#include "inc/output.h"
 
 void
 mred_open(char *filename)

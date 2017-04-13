@@ -3,6 +3,7 @@
 #include "inc/file_io.h"
 #include "inc/find.h"
 #include "inc/input.h"
+#include "inc/output.h"
 
 void mred_process_keypress ()
 {

@@ -6,6 +6,7 @@
 #include "inc/mred.h"
 #include "inc/file_io.h"
 #include "inc/input.h"
+#include "inc/output.h"
 
 int
 main (int argc, char *argv[]) {
