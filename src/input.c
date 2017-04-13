@@ -4,6 +4,7 @@
 #include "inc/find.h"
 #include "inc/input.h"
 #include "inc/output.h"
+#include "inc/terminal.h"
 
 void mred_process_keypress ()
 {

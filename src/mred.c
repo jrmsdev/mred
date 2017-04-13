@@ -1,4 +1,5 @@
 #include "inc/mred.h"
+#include "inc/terminal.h"
 
 void
 mred_init ()
