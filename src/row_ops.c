@@ -1,4 +1,4 @@
-#include "mred.h"
+#include "inc/mred.h"
 
 void
 mred_insert_row(int at, char *s, size_t len)

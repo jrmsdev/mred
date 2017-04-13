@@ -1,6 +1,6 @@
 /* terminal management */
 
-#include "mred.h"
+#include "inc/mred.h"
 
 void
 enable_raw_mode ()

@@ -1,5 +1,5 @@
-#ifndef __MRED_H
-#define __MRED_H
+#ifndef MRED_H
+#define MRED_H
 
 #define _DEFAULT_SOURCE
 #define _BSD_SOURCE
@@ -143,12 +143,6 @@ void mred_set_status_message (const char *fmt, ...);
 void mred_draw_message_bar (struct abuf *ab);
 
 
-/* buffer.c */
-
-void ab_append (struct abuf *ab, const char *s, int len);
-void ab_free (struct abuf *ab);
-
-
 /* file_io.c */
 
 void mred_open (char *filename);
@@ -188,4 +182,4 @@ void mred_update_syntax (edrow *row);
 int mred_syntax_to_color (int hl);
 void mred_select_syntax_hl ();
 
-#endif /* !__MRED_H */
+#endif /* !MRED_H */

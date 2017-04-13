@@ -1,4 +1,4 @@
-#include "mred.h"
+#include "inc/mred.h"
 
 void mred_process_keypress ()
 {

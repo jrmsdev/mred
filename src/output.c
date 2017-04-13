@@ -1,4 +1,5 @@
-#include "mred.h"
+#include "inc/mred.h"
+#include "inc/buffer.h"
 
 void
 mred_draw_rows (struct abuf *ab)

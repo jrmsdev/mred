@@ -3,7 +3,7 @@
 **   https://github.com/antirez/kilo
 */
 
-#include "mred.h"
+#include "inc/mred.h"
 
 int
 main (int argc, char *argv[]) {
