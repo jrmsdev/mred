@@ -1,6 +1,7 @@
-/* Created based on:
-**   http://viewsourcecode.org/snaptoken/kilo/
-**   https://github.com/antirez/kilo
+/*
+** Created based on kilo tutorial:
+**	http://viewsourcecode.org/snaptoken/kilo/
+**	https://github.com/antirez/kilo
 */
 
 #include "inc/mred.h"

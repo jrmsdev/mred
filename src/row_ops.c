@@ -15,6 +15,8 @@ mred_insert_row(int at, char *s, size_t len)
 		die ("ERR: ED.row mem realloc");
 	ED.row = newrow;
 
+	memset (&ED.row[ED.numrows], 0, sizeof (edrow));
+
 	memmove (&ED.row[at + 1], &ED.row[at],
 			sizeof (edrow) * (ED.numrows - at));
 
