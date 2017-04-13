@@ -2,6 +2,7 @@
 #include "inc/buffer.h"
 #include "inc/output.h"
 #include "inc/row_ops.h"
+#include "inc/syntax_hl.h"
 
 void
 mred_draw_rows (struct abuf *ab)

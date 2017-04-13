@@ -1,5 +1,6 @@
 #include "inc/mred.h"
 #include "inc/filetypes.h"
+#include "inc/syntax_hl.h"
 
 static int
 is_separator (int c)

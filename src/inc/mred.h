@@ -114,11 +114,4 @@ int mred_read_key ();
 int get_window_size (int *rows, int *cols);
 int get_cursor_position (int *rows, int *cols);
 
-
-/* syntax_hl.c */
-
-void mred_update_syntax (edrow *row);
-int mred_syntax_to_color (int hl);
-void mred_select_syntax_hl ();
-
 #endif /* !MRED_H */

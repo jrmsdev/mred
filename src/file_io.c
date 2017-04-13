@@ -3,6 +3,7 @@
 #include "inc/input.h"
 #include "inc/output.h"
 #include "inc/row_ops.h"
+#include "inc/syntax_hl.h"
 
 void
 mred_open(char *filename)
