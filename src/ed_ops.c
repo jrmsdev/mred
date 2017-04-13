@@ -3,7 +3,6 @@
 void
 mred_insert_char (int c)
 {
-	/* cy index starts from 1 */
 	if (ED.cy == ED.numrows)
 		mred_insert_row (ED.cy, "", 0);
 	mred_row_insert_char (&ED.row[ED.cy], ED.cx, c);

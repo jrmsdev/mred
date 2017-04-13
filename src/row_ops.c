@@ -6,9 +6,10 @@ mred_insert_row(int at, char *s, size_t len)
 	if (at < 0 || at > ED.numrows)
 		return;
 
-	ED.row = realloc (ED.row, sizeof (edrow) * (ED.numrows + 1));
-	if (ED.row == NULL)
-		die ("ERR: ED.row mem alloc");
+	edrow *newrow = realloc (ED.row, sizeof (edrow) * (ED.numrows + 1));
+	if (newrow == NULL)
+		die ("ERR: ED.row mem realloc");
+	ED.row = newrow;
 
 	memmove (&ED.row[at + 1], &ED.row[at],
 			sizeof (edrow) * (ED.numrows - at));
