@@ -47,16 +47,9 @@ t_check()
 	local check_ret=0
 	if test "$t_stdout_digest" != "$t_expect_digest"
 	then
-		t_fail $t_name "digest mistmatch"
-		t_info $t_name "expect $t_expect_digest"
-		t_info $t_name "stdout $t_stdout_digest"
-		t_info $t_name "       $t_stdout"
-		check_ret=1
-	fi
-	if test -s ${t_stdout}.vgout
-	then
-		t_fail $t_name "valgrind report not empty"
-		t_info ${t_stdout}.vgout
+		t_fail "$t_stdout digest"
+		t_info "expect $t_expect_digest"
+		t_info "   got $t_stdout_digest"
 		check_ret=1
 	fi
 	return $check_ret
@@ -69,10 +62,12 @@ t_run()
 	local t_stdout=${t_name}/stdout.$$
 	local t_cmd="$MRED_BIN"
 	local cmd_ret=$?
+
 	if test -e ${t_name}/openfile
 	then
 		t_cmd="$t_cmd ${t_name}/openfile"
 	fi
+
 	if $TEST_VALGRIND
 	then
 		valgrind $VG_ARGS --log-file=${t_stdout}.vgout \
@@ -82,22 +77,35 @@ t_run()
 		$t_cmd <$t_stdin >$t_stdout
 		cmd_ret=$?
 	fi
+
 	t_check $t_name $t_stdout
 	local check_ret=$?
-	if test 0 -eq $check_ret
-	then
-		rm -f $t_stdout ${t_stdout}.vgout
-	fi
+
 	if test 0 -ne $cmd_ret
 	then
 		t_fail $t_name "cmd run error: $cmd_ret"
+		t_info ${t_stdout}.vgout
+		check_ret=1
+	fi
+
+	if test -s ${t_stdout}.vgout
+	then
+		if test 0 -eq $cmd_ret
+		then
+			t_fail "${t_stdout}.vgout not empty"
+			check_ret=3
+		fi
+	fi
+
+	if test 0 -eq $check_ret
+	then
+		rm -f $t_stdout
 	fi
 	return $check_ret
 }
 
 t_main()
 {
-	local main_ret=0
 	for t_stdin in t????_*/stdin
 	do
 		local t_name=`dirname $t_stdin`
@@ -109,10 +117,9 @@ t_main()
 			t_pass $t_name
 		else
 			t_FAIL=`expr 1 + $t_FAIL`
-			main_ret=1
 		fi
 	done
-	return $main_ret
+	return $t_FAIL
 }
 
 test -x $MRED_BIN || {
