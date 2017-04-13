@@ -1,3 +1,5 @@
+#include "../src/terminal.c"
+#include "../src/mred.c"
 #include "../src/row_ops.c"
 #include "../src/syntax_hl.c"
 #include "../src/ed_ops.c"

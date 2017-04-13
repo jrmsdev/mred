@@ -12,4 +12,5 @@ build.test:
 
 .PHONY: clean
 clean:
-	@rm -vf ./t????_*/stdout.*
+	@rm -vf ./t????_*/stdout.* t_compile/t_*.bin
+	@rm -vrf ./t_compile/*.bin ./t_compile/*.vgout*

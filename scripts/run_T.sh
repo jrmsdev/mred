@@ -2,11 +2,19 @@
 
 MRED_BIN="../build.test/mred.bin"
 DIGEST=${CHECK_DIGEST_CMD:-"sha256"}
+MAKE=${MAKE:-"make"}
 t_RUN=0
 t_FAIL=0
+t_COMPILE=0
 TEST_VALGRIND=false
 VG_ARGS="--quiet --error-exitcode=128 --leak-check=full --show-leak-kinds=all"
 VG_ARGS="$VG_ARGS --track-origins=yes --errors-for-leak-kinds=all"
+T_COMPILE=false
+
+if test -n "$TEST_COMPILE"
+then
+	T_COMPILE=true
+fi
 
 t_error()
 {
@@ -104,6 +112,71 @@ t_run()
 	return $check_ret
 }
 
+t_compile()
+{
+	local t_name=$1
+	$MAKE ${t_name}.bin >/dev/null
+	mk_stat=$?
+	t_COMPILE=`expr 1 + $t_COMPILE`
+	test 0 -eq $mk_stat || {
+		t_fail "t_compile/$t_name compile (${mk_stat})"
+		t_FAIL=`expr 1 + $t_FAIL`
+		return 1
+	}
+	test -x ${t_name}.bin || {
+		t_fail "t_compile/${t_name}.bin executable not found"
+		t_FAIL=`expr 1 + $t_FAIL`
+		return 1
+	}
+	return 0
+}
+
+t_run_bin()
+{
+	local t_name=$1
+	if $TEST_VALGRIND
+	then
+		valgrind $VG_ARGS --log-file=./${t_name}.vgout ./${t_name}.bin
+	else
+		./${t_name}.bin
+	fi
+	local t_status=$?
+	test $t_status -eq 0 || {
+		t_fail "t_compile/${t_name} (${t_status})"
+		t_FAIL=`expr 1 + $t_FAIL`
+		return 1
+	}
+	test -s ./${t_name}.vgout && {
+		t_fail "t_compile/${t_name}.vgout not empty (${t_status})"
+		t_FAIL=`expr 1 + $t_FAIL`
+		return 1
+	}
+	rm -f ./${t_name}.vgout
+	t_pass "t_compile/${t_name}"
+	return 0
+}
+
+t_main_compile()
+{
+	cd ./t_compile || {
+		t_error "could not chdir to ${PWD}/t_compile"
+	}
+	local tests_run="$(ls t_*.c)"
+	if test "x" != "x${TEST_SUITE}"
+	then
+		local tests_run=`echo $TEST_SUITE | sed 's/,/ /g'`
+	fi
+	for t in $tests_run
+	do
+		local t_name=`basename $t .c`
+		t_compile $t_name && {
+			t_run_bin $t_name
+			t_RUN=`expr 1 + $t_RUN`
+		}
+	done
+	cd - >/dev/null
+}
+
 t_main()
 {
 	for t_stdin in t????_*/stdin
@@ -119,6 +192,7 @@ t_main()
 			t_FAIL=`expr 1 + $t_FAIL`
 		fi
 	done
+	$T_COMPILE && t_main_compile
 	return $t_FAIL
 }
 
@@ -146,6 +220,7 @@ main_ret=$?
 
 t_END=`date '+%s'`
 echo ""
+$T_COMPILE && echo "       $t_COMPILE test(s) compiled"
 echo "       $t_RUN test(s) ran"
 echo "       $t_FAIL test(s) failed"
 echo "       in $(expr $t_END - $t_START) second(s) - $(date)"

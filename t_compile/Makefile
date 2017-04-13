@@ -4,4 +4,4 @@ CFLAGS := -Wall -Wextra -pedantic -pipe -march=native -std=c11 -O0 -ggdb
 .SUFFIXES: .bin .c
 
 .c.bin:
-	@$(CC) $(CFLAGS) -o $@ $<
+	@$(CC) $(CFLAGS) -D__ALLOW_NOTTY -o $@ $<

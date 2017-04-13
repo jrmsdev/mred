@@ -2,5 +2,5 @@
 *.swp
 build/*
 build.test/*
-tests/*.bin
-tests/*.vgout*
+t_compile/*.bin
+t_compile/*.vgout*

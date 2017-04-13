@@ -23,8 +23,8 @@ build.test:
 
 .PHONY: clean
 clean:
-	@rm -vrf .do-install ./build ./build.test ./tests/*.bin ./tests/*.vgout*
-	@rm -vrf ./t/t????_*/stdout.*
+	@rm -vrf .do-install ./build ./build.test
+	@$(MAKE) -C t clean
 
 
 .PHONY: install
@@ -50,11 +50,9 @@ uninstall:
 
 .PHONY: check
 check: build.test
-	#@(cd ./tests && MAKE=$(MAKE) ../scripts/run-tests.sh)
 	@(cd ./t && ../scripts/run_T.sh)
 
 
 .PHONY: check-valgrind
 check-valgrind: build.test
-	#@(cd ./tests && MAKE=$(MAKE) ../scripts/run-tests.sh --valgrind)
 	@(cd ./t && ../scripts/run_T.sh --valgrind)
