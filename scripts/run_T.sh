@@ -199,7 +199,7 @@ t_main()
 test -x $MRED_BIN || {
 	t_error "$MRED_BIN not executable"
 }
-which $DIGEST >/dev/null 2>/dev/null || {
+which `echo $DIGEST | cut -d' ' -f1` >/dev/null 2>/dev/null || {
 	t_error "$DIGEST command not found"
 }
 
