@@ -1,12 +1,9 @@
 #ifndef MRED_H
 #define MRED_H
 
-#define _DEFAULT_SOURCE
-#define _BSD_SOURCE
-#define _GNU_SOURCE
-
 #include <stdio.h>
 #include <termios.h>
+#include <time.h>
 #include <unistd.h>
 
 

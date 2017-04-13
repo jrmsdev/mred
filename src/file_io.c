@@ -1,3 +1,5 @@
+#define _DEFAULT_SOURCE
+
 #include "inc/file_io.h"
 #include "inc/input.h"
 #include "inc/output.h"
@@ -6,7 +8,9 @@
 
 #include <errno.h>
 #include <fcntl.h>
+#include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 void
 mred_open(char *filename)
