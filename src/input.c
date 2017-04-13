@@ -1,5 +1,6 @@
 #include "inc/mred.h"
 #include "inc/ed_ops.h"
+#include "inc/file_io.h"
 
 void mred_process_keypress ()
 {

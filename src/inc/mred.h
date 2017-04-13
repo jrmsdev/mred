@@ -143,13 +143,6 @@ void mred_set_status_message (const char *fmt, ...);
 void mred_draw_message_bar (struct abuf *ab);
 
 
-/* file_io.c */
-
-void mred_open (char *filename);
-char * mred_rows_to_string (int *buflen);
-void mred_save ();
-
-
 /* row_ops.c */
 
 void mred_insert_row (int at, char *s, size_t len);

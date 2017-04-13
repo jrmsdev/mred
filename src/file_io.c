@@ -1,4 +1,5 @@
 #include "inc/mred.h"
+#include "inc/file_io.h"
 
 void
 mred_open(char *filename)

@@ -4,6 +4,7 @@
 */
 
 #include "inc/mred.h"
+#include "inc/file_io.h"
 
 int
 main (int argc, char *argv[]) {
