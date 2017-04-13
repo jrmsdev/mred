@@ -3,6 +3,8 @@
 #include "inc/row_ops.h"
 #include "inc/syntax_hl.h"
 
+#include <string.h>
+
 void
 mred_find_callback (char *query, int key)
 {

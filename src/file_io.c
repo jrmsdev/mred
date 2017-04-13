@@ -4,6 +4,10 @@
 #include "inc/row_ops.h"
 #include "inc/syntax_hl.h"
 
+#include <errno.h>
+#include <fcntl.h>
+#include <string.h>
+
 void
 mred_open(char *filename)
 {

@@ -8,6 +8,8 @@
 #include "inc/input.h"
 #include "inc/output.h"
 
+#include <string.h>
+
 int
 main (int argc, char *argv[]) {
 	ED.stdout = STDOUT_FILENO;

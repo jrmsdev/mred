@@ -4,6 +4,9 @@
 #include "inc/input.h"
 #include "inc/terminal.h"
 
+#include <errno.h>
+#include <string.h>
+
 void
 enable_raw_mode ()
 {

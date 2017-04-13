@@ -4,6 +4,11 @@
 #include "inc/row_ops.h"
 #include "inc/syntax_hl.h"
 
+#include <ctype.h>
+#include <stdarg.h>
+#include <string.h>
+#include <time.h>
+
 void
 mred_draw_rows (struct abuf *ab)
 {

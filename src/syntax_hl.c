@@ -2,6 +2,9 @@
 #include "inc/filetypes.h"
 #include "inc/syntax_hl.h"
 
+#include <ctype.h>
+#include <string.h>
+
 static int
 is_separator (int c)
 {

@@ -2,6 +2,8 @@
 #include "inc/row_ops.h"
 #include "inc/syntax_hl.h"
 
+#include <string.h>
+
 void
 mred_insert_row(int at, char *s, size_t len)
 {

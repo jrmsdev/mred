@@ -6,6 +6,8 @@
 #include "inc/output.h"
 #include "inc/terminal.h"
 
+#include <ctype.h>
+
 void mred_process_keypress ()
 {
 	static int quit_times = MRED_QUIT_TIMES;
