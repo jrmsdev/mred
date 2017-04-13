@@ -1,4 +1,5 @@
 #include "inc/mred.h"
+#include "inc/ed_ops.h"
 
 void
 mred_insert_char (int c)
