@@ -1,5 +1,6 @@
-#include "inc/mred.h"
 #include "inc/buffer.h"
+#include <stdlib.h>
+#include <string.h>
 
 void
 ab_append (struct abuf *ab, const char *s, int len)

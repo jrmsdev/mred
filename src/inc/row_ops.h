@@ -1,6 +1,8 @@
 #ifndef MRED_ROW_OPS_H
 #define MRED_ROW_OPS_H
 
+#include <stdlib.h>
+
 typedef struct {
 	int idx;
 	int size;

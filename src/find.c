@@ -1,4 +1,3 @@
-#include "inc/mred.h"
 #include "inc/find.h"
 #include "inc/input.h"
 #include "inc/row_ops.h"
