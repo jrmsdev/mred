@@ -6,7 +6,8 @@
 
 #include <errno.h>
 #include <string.h>
-#include <termio.h>
+#include <sys/ioctl.h>
+#include <termios.h>
 
 void
 enable_raw_mode ()

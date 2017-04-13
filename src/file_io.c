@@ -1,4 +1,4 @@
-#define _DEFAULT_SOURCE
+#define _POSIX_C_SOURCE 200809L
 
 #include "inc/file_io.h"
 #include "inc/input.h"
