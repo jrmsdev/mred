@@ -2,6 +2,7 @@
 #include "inc/file_io.h"
 #include "inc/input.h"
 #include "inc/output.h"
+#include "inc/row_ops.h"
 
 void
 mred_open(char *filename)

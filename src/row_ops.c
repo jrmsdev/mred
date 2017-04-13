@@ -1,4 +1,5 @@
 #include "inc/mred.h"
+#include "inc/row_ops.h"
 
 void
 mred_insert_row(int at, char *s, size_t len)

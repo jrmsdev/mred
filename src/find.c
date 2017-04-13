@@ -1,6 +1,7 @@
 #include "inc/mred.h"
 #include "inc/find.h"
 #include "inc/input.h"
+#include "inc/row_ops.h"
 
 void
 mred_find_callback (char *query, int key)
