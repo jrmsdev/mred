@@ -1,1 +1,33 @@
-../../src/syntax_hl.c
+#include "inc/mred.h"
+#include "inc/filetypes.h"
+#include "inc/syntax_hl.h"
+
+#include <ctype.h>
+#include <string.h>
+
+static int
+is_separator (int c)
+{
+	return isspace (c) || c == '\0' || strchr (",.()+-/*=~%<>[];:", c) != NULL;
+}
+
+
+void
+mred_update_syntax (edrow *row)
+{
+	unsigned char *newhl = realloc (row->hl, row->rsize);
+	if (newhl == NULL)
+		die ("ERR: update syntax new hl realloc");
+	row->hl = newhl;
+	memset (row->hl, HL_NORMAL, row->rsize);
+	if (ED.syntax == NULL)
+		return;
+	char **keywords = ED.syntax->keywords;
+	char *scs = ED.syntax->singleline_comment_start;
+	char *mcs = ED.syntax->multiline_comment_start;
+	char *mce = ED.syntax->multiline_comment_end;
+	int scs_len = scs ? strlen (scs) : 0;
+	int mcs_len = mcs ? strlen (mcs) : 0;
+...
+...
+...
