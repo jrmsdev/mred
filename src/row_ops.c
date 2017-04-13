@@ -22,6 +22,7 @@ mred_insert_row(int at, char *s, size_t len)
 	ED.row[at].chars = malloc (len + 1);
 	if (ED.row[at].chars == NULL)
 		die ("ERR: ED.row chars mem alloc");
+	memset (ED.row[at].chars, '\0', len + 1);
 
 	memcpy (ED.row[at].chars, s, len);
 	ED.row[at].chars[len] = '\0';
