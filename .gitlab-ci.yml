@@ -25,7 +25,7 @@ gcc:
         MAKE: make
         DEBPKGS: ""
         CHECK_VALGRIND: "false"
-	CHECK_DIGEST_CMD: sha256sum --tag
+        CHECK_DIGEST_CMD: sha256sum --tag
     script: *build_and_test
 
 clang_valgrind:
@@ -38,5 +38,5 @@ clang_valgrind:
         MAKE: bmake
         DEBPKGS: bmake clang valgrind
         CHECK_VALGRIND: "true"
-	CHECK_DIGEST_CMD: sha256sum --tag
+        CHECK_DIGEST_CMD: sha256sum --tag
     script: *build_and_test
