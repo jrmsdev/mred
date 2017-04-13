@@ -5,6 +5,7 @@
 
 #include "inc/mred.h"
 #include "inc/file_io.h"
+#include "inc/input.h"
 
 int
 main (int argc, char *argv[]) {

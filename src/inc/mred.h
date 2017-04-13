@@ -125,14 +125,6 @@ int get_window_size (int *rows, int *cols);
 int get_cursor_position (int *rows, int *cols);
 
 
-/* input.c */
-
-#define CTRL_KEY(k) ((k) & 0x1f)
-void mred_process_keypress ();
-void mred_move_cursor (int key);
-char * mred_prompt (char *prompt, void (*callback)(char *, int));
-
-
 /* output.c */
 
 void mred_draw_rows (struct abuf *ab);

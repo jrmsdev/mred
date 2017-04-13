@@ -2,6 +2,7 @@
 #include "inc/ed_ops.h"
 #include "inc/file_io.h"
 #include "inc/find.h"
+#include "inc/input.h"
 
 void mred_process_keypress ()
 {
