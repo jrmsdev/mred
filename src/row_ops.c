@@ -5,21 +5,32 @@ mred_insert_row(int at, char *s, size_t len)
 {
 	if (at < 0 || at > ED.numrows)
 		return;
+
 	ED.row = realloc (ED.row, sizeof (edrow) * (ED.numrows + 1));
+	if (ED.row == NULL)
+		die ("ERR: ED.row mem alloc");
+
 	memmove (&ED.row[at + 1], &ED.row[at],
 			sizeof (edrow) * (ED.numrows - at));
+
 	for (int j = at + 1; j <= ED.numrows; j++)
 		ED.row[j].idx++;
+
 	ED.row[at].idx = at;
 	ED.row[at].size = len;
+
 	ED.row[at].chars = malloc (len + 1);
 	memcpy (ED.row[at].chars, s, len);
 	ED.row[at].chars[len] = '\0';
+
 	ED.row[at].rsize = 0;
 	ED.row[at].render = NULL;
+
 	ED.row[at].hl = NULL;
 	ED.row[at].hl_open_comment = 0;
+
 	mred_update_row (&ED.row[at]);
+
 	ED.numrows++;
 	ED.dirty = 1;
 }
