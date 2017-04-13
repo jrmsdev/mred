@@ -138,12 +138,14 @@ then
 fi
 
 echo "test $($MRED_BIN --version)"
+echo ""
 t_START=`date '+%s'`
 
 t_main
 main_ret=$?
 
 t_END=`date '+%s'`
+echo ""
 echo "       $t_RUN test(s) ran"
 echo "       $t_FAIL test(s) failed"
 echo "       in $(expr $t_END - $t_START) second(s) - $(date)"
