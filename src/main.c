@@ -24,11 +24,10 @@ main (int argc, char *argv[]) {
 		exit (0);
 	}
 
-	if (!MRED_ALLOW_NOTTY)
-	{
-		if (!isatty (ED.stdin) || !isatty(ED.stdout))
-			die ("ERR: not running on a tty?");
-	}
+#ifndef __ALLOW_NOTTY
+	if (!isatty (ED.stdin) || !isatty(ED.stdout))
+		die ("ERR: not running on a tty?");
+#endif
 
 	mred_init ();
 	if (argc == 2)

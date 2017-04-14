@@ -35,25 +35,23 @@ enable_raw_mode ()
 	}
 	else
 	{
+#ifdef __ALLOW_NOTTY
+		char buf[16];
+		memset (&buf, '\0', 16);
+
+		if (read (ED.stdin, &buf, 11) != 11)
+			die ("ERR: stdin invalid read size");
+
+		if (strncmp ("MRED:STDIN\n", buf, 11) != 0)
+			die ("ERR: invalid stdin");
+
+		memset (&buf, '\0', 16);
+
 		ED.screenrows = 24;
 		ED.screencols = 80;
-		if (MRED_ALLOW_NOTTY)
-		{
-			char buf[16];
-			memset (&buf, '\0', 16);
-
-			if (read (ED.stdin, &buf, 11) != 11)
-				die ("ERR: stdin invalid read size");
-
-			if (strncmp ("MRED:STDIN\n", buf, 11) != 0)
-				die ("ERR: invalid stdin");
-
-			memset (&buf, '\0', 16);
-		}
-		else
-		{
-			die ("not running from a tty?");
-		}
+#else
+		die ("not running from a tty?");
+#endif
 	}
 }
 
