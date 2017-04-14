@@ -20,3 +20,16 @@ debug (const char *fmt, ...)
 		va_end (ap);
 	}
 }
+
+void
+debugln (const char *fmt, ...)
+{
+	if (DEBUG_ENABLED)
+	{
+		va_list ap;
+		va_start (ap, fmt);
+		vfprintf(stderr, fmt, ap);
+		fprintf(stderr, "\n");
+		va_end (ap);
+	}
+}

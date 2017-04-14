@@ -108,7 +108,7 @@ t_run()
 
 	if test 0 -eq $check_ret
 	then
-		rm -f $t_stdout
+		rm -f $t_stdout $t_stderr
 	fi
 	return $check_ret
 }

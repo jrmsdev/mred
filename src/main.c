@@ -42,6 +42,7 @@ main (int argc, char *argv[]) {
 	mred_set_status_message (
 			"HELP: Ctrl-Q = quit | Ctrl-S = save | Ctrl-F = find");
 
+	debugln ("start main loop");
 	while (1)
 	{
 		mred_refresh_screen ();

@@ -1,3 +1,4 @@
+#include "inc/debug.h"
 #include "inc/mred.h"
 #include "inc/row_ops.h"
 #include "inc/syntax_hl.h"
@@ -102,15 +103,21 @@ mred_row_cx_to_rx (edrow *row, int cx)
 void
 mred_row_insert_char (edrow *row, int at, int c)
 {
+	debugln ("row_insert_char at=%d c='%c(%d)' row.size=%d",
+			at, c, row->size);
+
 	if (at < 0 || at > row->size)
 		at = row->size;
+
 	char *newchars = realloc (row->chars, row->size + 1);
 	if (newchars == NULL)
 		die ("ERR: insert row chars realloc");
+
 	row->chars = newchars;
 	memmove (&row->chars[at + 1], &row->chars[at], row->size - at + 1);
 	row->size++;
 	row->chars[at] = c;
+
 	mred_update_row (row);
 	ED.dirty = 1;
 }

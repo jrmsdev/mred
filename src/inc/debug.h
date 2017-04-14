@@ -5,5 +5,6 @@
 
 void debug_init (void);
 void debug (const char *fmt, ...);
+void debugln (const char *fmt, ...);
 
 #endif /* !MRED_DEBUG_H */

@@ -1,3 +1,4 @@
+#include "inc/debug.h"
 #include "inc/mred.h"
 #include "inc/ed_ops.h"
 #include "inc/row_ops.h"
@@ -5,8 +6,13 @@
 void
 mred_insert_char (int c)
 {
+	debug("insert_char '%c(%d)'", c, c);
+	debug(" ED.cy=%d ED.cx=%d ED.numrows=%d", ED.cy, ED.cx, ED.numrows);
+	debugln ("");
+
 	if (ED.cy == ED.numrows)
 		mred_insert_row (ED.cy, "", 0);
+
 	mred_row_insert_char (&ED.row[ED.cy], ED.cx, c);
 	ED.cx++;
 }
