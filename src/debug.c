@@ -7,15 +7,7 @@ void
 debug_init (void)
 {
 	DEBUG_ENABLED = 1;
-	atexit (debug_end);
 }
-
-
-void
-debug_end (void)
-{
-}
-
 
 void
 debug (const char *fmt, ...)
