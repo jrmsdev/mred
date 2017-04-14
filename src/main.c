@@ -20,7 +20,6 @@ main (int argc, char *argv[]) {
 #ifdef __DEBUG
 	debug_init ();
 #endif
-	debug ("debug test...");
 
 	if (argc == 2 && strncmp (argv[1], "--version", 9) == 0)
 	{
@@ -36,6 +35,7 @@ main (int argc, char *argv[]) {
 #endif
 
 	mred_init ();
+
 	if (argc == 2)
 		mred_open (argv[1]);
 
