@@ -1,5 +1,6 @@
 .do-install
 *.swp
+mred.debug
 build/*
 build.test/*
 t_compile/*.bin
