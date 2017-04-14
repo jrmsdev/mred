@@ -6,11 +6,10 @@
 void
 mred_insert_char (int c)
 {
-	debug ("insert_char '%c(%d)'", c, c);
+	debug ("insert_char");
 	debugln (" ED.cy=%d ED.cx=%d ED.numrows=%d", ED.cy, ED.cx, ED.numrows);
 
 	if (ED.cy == ED.numrows)
-		debugln ("insert_char call insert_row");
 		mred_insert_row (ED.cy, "", 0);
 
 	mred_row_insert_char (&ED.row[ED.cy], ED.cx, c);

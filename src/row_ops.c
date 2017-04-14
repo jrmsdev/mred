@@ -8,7 +8,7 @@
 void
 mred_insert_row(int at, char *s, size_t len)
 {
-	debugln ("insert_row at=%d, s=\"%s\" len=%ld", at, s, len);
+	debugln ("insert_row at=%d len=%ld", at, len);
 
 	if (at < 0 || at > ED.numrows)
 		return;
@@ -105,8 +105,7 @@ mred_row_cx_to_rx (edrow *row, int cx)
 void
 mred_row_insert_char (edrow *row, int at, int c)
 {
-	debugln ("row_insert_char at=%d c='%c(%d)' row.size=%d",
-			at, c, row->size);
+	debugln ("row_insert_char at=%d row.size=%d", at, row->size);
 
 	if (at < 0 || at > row->size)
 		at = row->size;
