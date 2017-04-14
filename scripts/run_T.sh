@@ -68,6 +68,7 @@ t_run()
 	local t_name=$1
 	local t_stdin=$2
 	local t_stdout=${t_name}/stdout.$$
+	local t_stderr=${t_name}/stderr.$$
 	local t_cmd="$MRED_BIN"
 	local cmd_ret=$?
 
@@ -79,10 +80,10 @@ t_run()
 	if $TEST_VALGRIND
 	then
 		valgrind $VG_ARGS --log-file=${t_stdout}.vgout \
-				$t_cmd <$t_stdin >$t_stdout
+				$t_cmd <$t_stdin >$t_stdout 2>$t_stderr
 		cmd_ret=$?
 	else
-		$t_cmd <$t_stdin >$t_stdout
+		$t_cmd <$t_stdin >$t_stdout 2>$t_stderr
 		cmd_ret=$?
 	fi
 
@@ -211,7 +212,7 @@ then
 	}
 fi
 
-echo "test $($MRED_BIN --version)"
+echo "test $($MRED_BIN --version 2>/dev/null)"
 echo ""
 t_START=`date '+%s'`
 
