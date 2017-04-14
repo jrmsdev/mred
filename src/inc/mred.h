@@ -6,16 +6,14 @@
 #include <time.h>
 #include <unistd.h>
 
+#include "row_ops.h"
+
 
 #define MRED_VERSION "0.3"
 
 /* configurable data (?) */
-
 #define MRED_TAB_STOP 8
 #define MRED_QUIT_TIMES 2
-
-
-#include "row_ops.h"
 
 
 struct mred_state

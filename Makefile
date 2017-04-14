@@ -1,5 +1,5 @@
 PREFIX ?= /opt/pkg
-TEST_CFLAGS := -D__ALLOW_NOTTY -O0 -ggdb
+TEST_CFLAGS := -D__ALLOW_NOTTY -D__DEBUG -O0 -ggdb
 
 
 .PHONY: all

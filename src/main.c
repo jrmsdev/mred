@@ -4,6 +4,7 @@
 **	https://github.com/antirez/kilo
 */
 
+#include "inc/debug.h"
 #include "inc/mred.h"
 #include "inc/file_io.h"
 #include "inc/input.h"
@@ -15,6 +16,11 @@ int
 main (int argc, char *argv[]) {
 	ED.stdout = STDOUT_FILENO;
 	ED.stdin = STDIN_FILENO;
+
+#ifdef __DEBUG
+	debug_init ();
+#endif
+	debug ("debug test...");
 
 	if (argc == 2 && strncmp (argv[1], "--version", 9) == 0)
 	{
