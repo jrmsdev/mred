@@ -1,5 +1,5 @@
 PREFIX ?= /opt/pkg
-TEST_CFLAGS := -D__ALLOW_NOTTY -O0 -ggdb
+TEST_CFLAGS := $(MRED_CFLAGS) -D__ALLOW_NOTTY -O0 -ggdb
 
 
 .PHONY: all
