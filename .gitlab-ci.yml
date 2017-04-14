@@ -10,7 +10,6 @@ before_script:
 
 .script: &build_and_test
     - $MAKE
-    - $MAKE build.test >/dev/null
     - ./build/mred.bin --version
     - $MAKE check
     - test "true" = "$CHECK_VALGRIND" && $MAKE check-valgrind
