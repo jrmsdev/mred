@@ -212,7 +212,7 @@ then
 	}
 fi
 
-echo "test $($MRED_BIN --version 2>/dev/null)"
+echo "test (PID: $$) - $($MRED_BIN --version 2>/dev/null)"
 echo ""
 t_START=`date '+%s'`
 
