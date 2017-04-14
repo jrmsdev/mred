@@ -8,6 +8,8 @@
 void
 mred_insert_row(int at, char *s, size_t len)
 {
+	debugln ("insert_row at=%d, s=\"%s\" len=%ld", at, s, len);
+
 	if (at < 0 || at > ED.numrows)
 		return;
 
